@@ -1,0 +1,103 @@
+.chart-container {
+    position: relative;
+    height: 300px;
+    width: 100%;
+    margin-top: 20px;
+}
+
+@media (max-width: 768px) {
+    .chart-container {
+        height: 250px;
+    }
+    
+    /* 調整表格在手機上的顯示 */
+    .overflow-x-auto {
+        margin: 0 -1rem;  /* 負邊距讓表格可以滾動 */
+        padding: 0 1rem;
+    }
+    
+    /* 調整表格文字大小 */
+    .text-sm {
+        font-size: 0.75rem !important;
+    }
+    
+    /* 調整表格 padding */
+    .px-4 {
+        padding-left: 0.5rem !important;
+        padding-right: 0.5rem !important;
+    }
+    
+    /* 調整圖表標籤大小 */
+    canvas {
+        height: 200px !important;
+    }
+
+    /* 確保輸入區塊和表格佔滿寬度 */
+    .input-section,
+    #comparison-table,
+    .country-result {
+        width: 100% !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+
+    /* 調整 grid 布局 */
+    .grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    /* 移除不必要的間距 */
+    .container {
+        padding-left: 0.5rem !important;
+        padding-right: 0.5rem !important;
+    }
+
+    /* 調整 gap */
+    .gap-6 {
+        gap: 1rem !important;
+    }
+}
+
+/* 特別針對更小的螢幕 */
+@media (max-width: 375px) {
+    /* 調整卡片內邊距 */
+    .p-6 {
+        padding: 1rem !important;
+    }
+    
+    /* 進一步縮小文字 */
+    .text-sm {
+        font-size: 0.7rem !important;
+    }
+    
+    /* 調整標題大小 */
+    .text-3xl {
+        font-size: 1.5rem !important;
+    }
+    
+    .text-xl {
+        font-size: 1.25rem !important;
+    }
+    
+    /* 調整輸入框和標籤 */
+    .input-group input {
+        font-size: 0.875rem !important;
+        padding: 0.5rem !important;
+    }
+    
+    .input-group label {
+        font-size: 0.875rem !important;
+    }
+
+    /* 確保所有區塊完全貼合螢幕邊緣 */
+    .container {
+        padding-left: 0.25rem !important;
+        padding-right: 0.25rem !important;
+    }
+
+    /* 調整卡片邊距 */
+    .my-8 {
+        margin-top: 1rem !important;
+        margin-bottom: 1rem !important;
+    }
+} 
