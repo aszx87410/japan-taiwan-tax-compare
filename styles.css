@@ -12,8 +12,10 @@
     
     /* 調整表格在手機上的顯示 */
     .overflow-x-auto {
-        margin: 0 -1rem;  /* 負邊距讓表格可以滾動 */
-        padding: 0 1rem;
+        margin: 0;  /* 移除負邊距 */
+        padding: 0; /* 移除內邊距 */
+        width: 100%; /* 確保表格佔滿寬度 */
+        overflow-x: auto; /* 允許水平滾動 */
     }
     
     /* 調整表格文字大小 */
