@@ -318,13 +318,13 @@ function updateDetails(elementId, taxInfo, currency) {
                     <tr>
                         <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900">總收入</td>
                         <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900 text-right">${currencySymbol}${totalIncomeInWan}萬</td>
-                        ${currency === 'JPY' ? `<td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900 text-right">NTD${twdConversion.totalIncome}萬</td>` : ''}
+                        ${currency === 'JPY' ? `<td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900 text-right">$${twdConversion.totalIncome}萬</td>` : ''}
                         <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900 text-right">100%</td>
                     </tr>
                     <tr>
                         <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900">所得稅</td>
                         <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900 text-right">${currencySymbol}${totalTaxInWan}萬</td>
-                        ${currency === 'JPY' ? `<td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900 text-right">NTD${twdConversion.totalTax}萬</td>` : ''}
+                        ${currency === 'JPY' ? `<td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900 text-right">$${twdConversion.totalTax}萬</td>` : ''}
                         <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900 text-right">${((taxInfo.totalTax / taxInfo.totalIncome) * 100).toFixed(2)}%</td>
                     </tr>
                     ${currency === 'TWD' ? `
@@ -342,32 +342,32 @@ function updateDetails(elementId, taxInfo, currency) {
                         <tr>
                             <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900">住民稅</td>
                             <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900 text-right">${currencySymbol}${(taxInfo.residentTax / 10000).toFixed(2)}萬</td>
-                            <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900 text-right">NTD${(taxInfo.residentTax * EXCHANGE_RATE / 10000).toFixed(2)}萬</td>
+                            <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900 text-right">$${(taxInfo.residentTax * EXCHANGE_RATE / 10000).toFixed(2)}萬</td>
                             <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900 text-right">${((taxInfo.residentTax / taxInfo.totalIncome) * 100).toFixed(2)}%</td>
                         </tr>
                         <tr>
                             <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900">健康保険料</td>
                             <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900 text-right">${currencySymbol}${(taxInfo.healthInsurance / 10000).toFixed(2)}萬</td>
-                            <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900 text-right">NTD${(taxInfo.healthInsurance * EXCHANGE_RATE / 10000).toFixed(2)}萬</td>
+                            <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900 text-right">$${(taxInfo.healthInsurance * EXCHANGE_RATE / 10000).toFixed(2)}萬</td>
                             <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900 text-right">${((taxInfo.healthInsurance / taxInfo.totalIncome) * 100).toFixed(2)}%</td>
                         </tr>
                         <tr>
                             <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900">厚生年金</td>
                             <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900 text-right">${currencySymbol}${(taxInfo.pensionInsurance / 10000).toFixed(2)}萬</td>
-                            <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900 text-right">NTD${(taxInfo.pensionInsurance * EXCHANGE_RATE / 10000).toFixed(2)}萬</td>
+                            <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900 text-right">$${(taxInfo.pensionInsurance * EXCHANGE_RATE / 10000).toFixed(2)}萬</td>
                             <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900 text-right">${((taxInfo.pensionInsurance / taxInfo.totalIncome) * 100).toFixed(2)}%</td>
                         </tr>
                         <tr>
                             <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900">雇用保険料</td>
                             <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900 text-right">${currencySymbol}${(taxInfo.employmentInsurance / 10000).toFixed(2)}萬</td>
-                            <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900 text-right">NTD${(taxInfo.employmentInsurance * EXCHANGE_RATE / 10000).toFixed(2)}萬</td>
+                            <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900 text-right">$${(taxInfo.employmentInsurance * EXCHANGE_RATE / 10000).toFixed(2)}萬</td>
                             <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900 text-right">${((taxInfo.employmentInsurance / taxInfo.totalIncome) * 100).toFixed(2)}%</td>
                         </tr>
                     `}
                     <tr class="bg-gray-50 font-medium">
                         <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900">稅後所得</td>
                         <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900 text-right">${currencySymbol}${netIncomeInWan}萬</td>
-                        ${currency === 'JPY' ? `<td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900 text-right">NTD${twdConversion.netIncome}萬</td>` : ''}
+                        ${currency === 'JPY' ? `<td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900 text-right">$${twdConversion.netIncome}萬</td>` : ''}
                         <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900 text-right">${(100 - taxRate).toFixed(2)}%</td>
                     </tr>
                 </tbody>
@@ -520,9 +520,9 @@ function updateComparisonTable(twTax, jpTax) {
                     <tr>
                         <th scope="col" class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">項目</th>
                         <th scope="col" class="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">台灣金額</th>
-                        <th scope="col" class="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">台灣比例</th>
+                        <th scope="col" class="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">比例</th>
                         <th scope="col" class="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">日本金額</th>
-                        <th scope="col" class="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">日本比例</th>
+                        <th scope="col" class="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">比例</th>
                         <th scope="col" class="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">差額</th>
                     </tr>
                 </thead>
