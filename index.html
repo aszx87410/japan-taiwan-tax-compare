@@ -19,10 +19,25 @@
 </head>
 <body class="bg-gray-50">
     <div class="container mx-auto px-4 py-8">
-        <h1 class="text-3xl font-bold text-center mb-8 text-gray-800">台日稅務計算機</h1>
+        <h1 class="text-3xl font-bold text-center mb-4 text-gray-800" data-i18n="main.title">台日稅務計算機</h1>
+        
+        <!-- Language Switcher Widget -->
+        <div class="flex justify-center mb-6">
+            <div class="language-switcher bg-white rounded-lg shadow-sm border border-gray-200 p-1">
+                <button class="lang-btn active px-3 py-1 rounded-md text-sm font-medium transition-colors" data-lang="zh-TW">
+                    中文
+                </button>
+                <button class="lang-btn px-3 py-1 rounded-md text-sm font-medium transition-colors" data-lang="ja">
+                    日本語
+                </button>
+                <button class="lang-btn px-3 py-1 rounded-md text-sm font-medium transition-colors" data-lang="en">
+                    English
+                </button>
+            </div>
+        </div>
         
         <div class="text-center mb-4">
-            <span id="exchange-rate-display" class="text-sm text-gray-600">
+            <span id="exchange-rate-display" class="text-sm text-gray-600" data-i18n="main.loading_rate">
                 載入匯率中...
             </span>
         </div>
@@ -30,7 +45,7 @@
         <div class="input-section bg-white p-6 rounded-lg shadow-md">
             <div class="grid md:grid-cols-2 gap-6">
                 <div class="input-group">
-                    <label for="twd-income" class="block text-sm font-medium text-gray-700 mb-2">
+                    <label for="twd-income" class="block text-sm font-medium text-gray-700 mb-2" data-i18n="input.twd_income">
                         台幣年收入（萬元）：
                     </label>
                     <div class="relative">
@@ -38,22 +53,24 @@
                                inputmode="decimal"
                                id="twd-income" 
                                value="120"
+                               data-i18n-placeholder="input.twd_placeholder"
                                placeholder="請輸入台幣金額" 
                                class="block w-full px-4 py-3 rounded-md border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none">
-                        <span class="absolute right-3 top-3 text-gray-500">萬</span>
+                        <span class="absolute right-3 top-3 text-gray-500" data-i18n="input.twd_unit">萬</span>
                     </div>
                 </div>
                 <div class="input-group">
-                    <label for="jpy-income" class="block text-sm font-medium text-gray-700 mb-2">
+                    <label for="jpy-income" class="block text-sm font-medium text-gray-700 mb-2" data-i18n="input.jpy_income">
                         日幣年收入（萬元）：
                     </label>
                     <div class="relative">
                         <input type="text" 
                                inputmode="decimal"
                                id="jpy-income" 
+                               data-i18n-placeholder="input.jpy_placeholder"
                                placeholder="請輸入日幣金額" 
                                class="block w-full px-4 py-3 rounded-md border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none">
-                        <span class="absolute right-3 top-3 text-gray-500">萬</span>
+                        <span class="absolute right-3 top-3 text-gray-500" data-i18n="input.jpy_unit">萬</span>
                     </div>
                 </div>
             </div>
@@ -65,14 +82,14 @@
 
         <div class="grid md:grid-cols-2 gap-6">
             <div class="country-result bg-white p-6 rounded-lg shadow-md" id="tw-result">
-                <h2 class="text-xl font-semibold mb-4 text-gray-800">台灣稅務計算結果</h2>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800" data-i18n="results.taiwan_title">台灣稅務計算結果</h2>
                 <div class="details text-sm text-gray-600 mb-6"></div>
                 <div class="chart-container">
                     <canvas id="tw-chart"></canvas>
                 </div>
             </div>
             <div class="country-result bg-white p-6 rounded-lg shadow-md" id="jp-result">
-                <h2 class="text-xl font-semibold mb-4 text-gray-800">日本稅務計算結果</h2>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800" data-i18n="results.japan_title">日本稅務計算結果</h2>
                 <div class="details text-sm text-gray-600 mb-6"></div>
                 <div class="chart-container">
                     <canvas id="jp-chart"></canvas>
@@ -81,7 +98,7 @@
         </div>
     </div>
     <footer class="text-center p-4">
-        <a href="https://github.com/aszx87410/japan-taiwan-tax-compare" target="_blank" class="text-blue-500 hover:underline">
+        <a href="https://github.com/aszx87410/japan-taiwan-tax-compare" target="_blank" class="text-blue-500 hover:underline" data-i18n="footer.github">
             GitHub 網址
         </a>
     </footer>
