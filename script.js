@@ -1,3 +1,221 @@
+// Internationalization System
+const translations = {
+    'zh-TW': {
+        main: {
+            title: '台日稅務計算機',
+            loading_rate: '載入匯率中...',
+            current_rate: '目前匯率：1日圓 = {} 台幣',
+            default_rate: ' (使用預設值)'
+        },
+        input: {
+            twd_income: '台幣年收入（萬元）：',
+            jpy_income: '日幣年收入（萬元）：',
+            twd_placeholder: '請輸入台幣金額',
+            jpy_placeholder: '請輸入日幣金額',
+            twd_unit: '萬',
+            jpy_unit: '萬'
+        },
+        results: {
+            taiwan_title: '台灣稅務計算結果',
+            japan_title: '日本稅務計算結果',
+            total_income: '總收入',
+            net_income: '稅後收入',
+            total_tax: '總稅金',
+            income_tax: '所得稅',
+            health_insurance: '健保費',
+            labor_insurance: '勞保費',
+            resident_tax: '住民稅',
+            pension_insurance: '厚生年金',
+            employment_insurance: '雇用保險',
+            jp_health_insurance: '健康保險',
+            social_insurance: '社會保險',
+            total_deductions: '扣除額總計',
+            comparison_title: '稅務比較',
+            taiwan: '台灣',
+            japan: '日本',
+            category: '項目',
+            amount: '金額'
+        },
+        footer: {
+            github: 'GitHub 網址'
+        }
+    },
+    'ja': {
+        main: {
+            title: '台日税務比較計算機',
+            loading_rate: '為替レート読み込み中...',
+            current_rate: '現在の為替レート：1円 = {} 台湾ドル',
+            default_rate: ' (デフォルト値を使用)'
+        },
+        input: {
+            twd_income: '台湾ドル年収（万元）：',
+            jpy_income: '日本円年収（万円）：',
+            twd_placeholder: '台湾ドル金額を入力してください',
+            jpy_placeholder: '日本円金額を入力してください',
+            twd_unit: '万',
+            jpy_unit: '万'
+        },
+        results: {
+            taiwan_title: '台湾税務計算結果',
+            japan_title: '日本税務計算結果',
+            total_income: '総収入',
+            net_income: '税引後収入',
+            total_tax: '総税額',
+            income_tax: '所得税',
+            health_insurance: '健康保険',
+            labor_insurance: '労働保険',
+            resident_tax: '住民税',
+            pension_insurance: '厚生年金',
+            employment_insurance: '雇用保険',
+            jp_health_insurance: '健康保険',
+            social_insurance: '社会保険',
+            total_deductions: '控除額合計',
+            comparison_title: '税務比較',
+            taiwan: '台湾',
+            japan: '日本',
+            category: '項目',
+            amount: '金額'
+        },
+        footer: {
+            github: 'GitHub リンク'
+        }
+    },
+    'en': {
+        main: {
+            title: 'Taiwan-Japan Tax Comparison Calculator',
+            loading_rate: 'Loading exchange rate...',
+            current_rate: 'Current exchange rate: 1 JPY = {} TWD',
+            default_rate: ' (using default value)'
+        },
+        input: {
+            twd_income: 'TWD Annual Income (10K TWD):',
+            jpy_income: 'JPY Annual Income (10K JPY):',
+            twd_placeholder: 'Enter TWD amount',
+            jpy_placeholder: 'Enter JPY amount',
+            twd_unit: '10K',
+            jpy_unit: '10K'
+        },
+        results: {
+            taiwan_title: 'Taiwan Tax Calculation Results',
+            japan_title: 'Japan Tax Calculation Results',
+            total_income: 'Total Income',
+            net_income: 'Net Income',
+            total_tax: 'Total Tax',
+            income_tax: 'Income Tax',
+            health_insurance: 'Health Insurance',
+            labor_insurance: 'Labor Insurance',
+            resident_tax: 'Resident Tax',
+            pension_insurance: 'Pension Insurance',
+            employment_insurance: 'Employment Insurance',
+            jp_health_insurance: 'Health Insurance',
+            social_insurance: 'Social Insurance',
+            total_deductions: 'Total Deductions',
+            comparison_title: 'Tax Comparison',
+            taiwan: 'Taiwan',
+            japan: 'Japan',
+            category: 'Category',
+            amount: 'Amount'
+        },
+        footer: {
+            github: 'GitHub Repository'
+        }
+    }
+};
+
+// Current language
+let currentLanguage = localStorage.getItem('preferred-language') || 'zh-TW';
+
+// i18n function to get translated text
+function t(key, replacements = []) {
+    const keys = key.split('.');
+    let value = translations[currentLanguage];
+    
+    for (const k of keys) {
+        if (value && typeof value === 'object') {
+            value = value[k];
+        } else {
+            return key; // fallback to key if translation not found
+        }
+    }
+    
+    if (typeof value === 'string') {
+        // Replace placeholders like {} with provided values
+        let index = 0;
+        return value.replace(/\{\}/g, () => {
+            return index < replacements.length ? replacements[index++] : '{}';
+        });
+    }
+    
+    return key; // fallback to key
+}
+
+// Function to update all translatable elements
+function updatePageLanguage() {
+    // Update document language
+    document.documentElement.lang = currentLanguage;
+    
+    // Update page title
+    document.title = t('main.title');
+    
+    // Update meta tags
+    const description = document.querySelector('meta[name="description"]');
+    if (description) {
+        description.content = t('main.title');
+    }
+    
+    // Update all elements with data-i18n attribute
+    document.querySelectorAll('[data-i18n]').forEach(element => {
+        const key = element.getAttribute('data-i18n');
+        element.textContent = t(key);
+    });
+    
+    // Update placeholders
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
+        const key = element.getAttribute('data-i18n-placeholder');
+        element.placeholder = t(key);
+    });
+    
+    // Update exchange rate display
+    updateExchangeRateDisplay();
+    
+    // Re-calculate and display to update all dynamic content
+    const twdInput = document.getElementById('twd-income');
+    if (twdInput.value) {
+        const twdAmount = (parseFloat(twdInput.value) || 0) * 10000;
+        calculateAndDisplay(twdAmount, 'TWD');
+    }
+}
+
+// Function to switch language
+function switchLanguage(lang) {
+    currentLanguage = lang;
+    localStorage.setItem('preferred-language', lang);
+    
+    // Update active button
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.getAttribute('data-lang') === lang) {
+            btn.classList.add('active');
+        }
+    });
+    
+    updatePageLanguage();
+}
+
+// Initialize language switcher
+document.addEventListener('DOMContentLoaded', function() {
+    // Set up language button event listeners
+    document.querySelectorAll('.lang-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const lang = this.getAttribute('data-lang');
+            switchLanguage(lang);
+        });
+    });
+    
+    // Set initial language
+    switchLanguage(currentLanguage);
+});
+
 // 匯率設定（這個值應該要定期更新）
 let EXCHANGE_RATE = 0.22; // 預設值
 
@@ -69,7 +287,7 @@ const chartInstances = {
 
 // 修改日本的稅費設定
 const JP_ADDITIONAL_TAX = {
-    // 住民稅（道���民税4% + 市町村民税6%）
+    // 住民稅（道民税4% + 市町村民税6%）
     resident: {
         rate: 0.10,
         basicDeduction: 430000  // 基礎控除額 43萬日圓
@@ -117,9 +335,9 @@ async function fetchExchangeRate() {
 function updateExchangeRateDisplay() {
     const exchangeRateDisplay = document.getElementById('exchange-rate-display');
     if (exchangeRateDisplay) {
-        exchangeRateDisplay.textContent = `目前匯率：1日圓 = ${EXCHANGE_RATE.toFixed(4)} $`;
+        exchangeRateDisplay.textContent = t('main.current_rate', [EXCHANGE_RATE.toFixed(4)]);
         if (EXCHANGE_RATE === 0.22) {
-            exchangeRateDisplay.textContent += ' (使用預設值)';
+            exchangeRateDisplay.textContent += t('main.default_rate');
         }
     }
 }
@@ -290,6 +508,7 @@ function calculateAndDisplay(twdIncome) {
 function updateDetails(elementId, taxInfo, currency) {
     const detailsDiv = document.querySelector(`#${elementId} .details`);
     const currencySymbol = currency === 'TWD' ? '$' : '¥';
+    const unitText = currentLanguage === 'en' ? '10K' : '萬';
     
     const totalTaxInWan = (taxInfo.totalTax / 10000).toFixed(2);
     const totalIncomeInWan = (taxInfo.totalIncome / 10000).toFixed(2);
@@ -308,66 +527,66 @@ function updateDetails(elementId, taxInfo, currency) {
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
                     <tr>
-                        <th scope="col" class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">項目</th>
-                        <th scope="col" class="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">金額</th>
-                        ${currency === 'JPY' ? '<th scope="col" class="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">台幣換算</th>' : ''}
-                        <th scope="col" class="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">比例</th>
+                        <th scope="col" class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">${t('results.category')}</th>
+                        <th scope="col" class="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">${t('results.amount')}</th>
+                        ${currency === 'JPY' ? `<th scope="col" class="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">${currentLanguage === 'zh-TW' ? '台幣換算' : currentLanguage === 'ja' ? '台湾ドル換算' : 'TWD Equivalent'}</th>` : ''}
+                        <th scope="col" class="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">${currentLanguage === 'zh-TW' ? '比例' : currentLanguage === 'ja' ? '割合' : 'Ratio'}</th>
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
                     <tr>
-                        <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900">總收入</td>
-                        <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900 text-right">${currencySymbol}${totalIncomeInWan}萬</td>
-                        ${currency === 'JPY' ? `<td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900 text-right">$${twdConversion.totalIncome}萬</td>` : ''}
+                        <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900">${t('results.total_income')}</td>
+                        <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900 text-right">${currencySymbol}${totalIncomeInWan}${unitText}</td>
+                        ${currency === 'JPY' ? `<td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900 text-right">$${twdConversion.totalIncome}${unitText}</td>` : ''}
                         <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900 text-right">100%</td>
                     </tr>
                     <tr>
-                        <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900">所得稅</td>
-                        <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900 text-right">${currencySymbol}${totalTaxInWan}萬</td>
-                        ${currency === 'JPY' ? `<td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900 text-right">$${twdConversion.totalTax}萬</td>` : ''}
+                        <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900">${t('results.income_tax')}</td>
+                        <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900 text-right">${currencySymbol}${totalTaxInWan}${unitText}</td>
+                        ${currency === 'JPY' ? `<td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900 text-right">$${twdConversion.totalTax}${unitText}</td>` : ''}
                         <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900 text-right">${((taxInfo.totalTax / taxInfo.totalIncome) * 100).toFixed(2)}%</td>
                     </tr>
                     ${currency === 'TWD' ? `
                         <tr>
-                            <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900">健保費</td>
-                            <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900 text-right">${currencySymbol}${(taxInfo.healthInsurance / 10000).toFixed(2)}萬</td>
+                            <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900">${t('results.health_insurance')}</td>
+                            <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900 text-right">${currencySymbol}${(taxInfo.healthInsurance / 10000).toFixed(2)}${unitText}</td>
                             <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900 text-right">${((taxInfo.healthInsurance / taxInfo.totalIncome) * 100).toFixed(2)}%</td>
                         </tr>
                         <tr>
-                            <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900">勞保費</td>
-                            <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900 text-right">${currencySymbol}${(taxInfo.laborInsurance / 10000).toFixed(2)}萬</td>
+                            <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900">${t('results.labor_insurance')}</td>
+                            <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900 text-right">${currencySymbol}${(taxInfo.laborInsurance / 10000).toFixed(2)}${unitText}</td>
                             <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900 text-right">${((taxInfo.laborInsurance / taxInfo.totalIncome) * 100).toFixed(2)}%</td>
                         </tr>
                     ` : `
                         <tr>
-                            <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900">住民稅</td>
-                            <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900 text-right">${currencySymbol}${(taxInfo.residentTax / 10000).toFixed(2)}萬</td>
-                            <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900 text-right">$${(taxInfo.residentTax * EXCHANGE_RATE / 10000).toFixed(2)}萬</td>
+                            <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900">${t('results.resident_tax')}</td>
+                            <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900 text-right">${currencySymbol}${(taxInfo.residentTax / 10000).toFixed(2)}${unitText}</td>
+                            <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900 text-right">$${(taxInfo.residentTax * EXCHANGE_RATE / 10000).toFixed(2)}${unitText}</td>
                             <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900 text-right">${((taxInfo.residentTax / taxInfo.totalIncome) * 100).toFixed(2)}%</td>
                         </tr>
                         <tr>
-                            <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900">健康保険料</td>
-                            <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900 text-right">${currencySymbol}${(taxInfo.healthInsurance / 10000).toFixed(2)}萬</td>
-                            <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900 text-right">$${(taxInfo.healthInsurance * EXCHANGE_RATE / 10000).toFixed(2)}萬</td>
+                            <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900">${t('results.jp_health_insurance')}</td>
+                            <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900 text-right">${currencySymbol}${(taxInfo.healthInsurance / 10000).toFixed(2)}${unitText}</td>
+                            <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900 text-right">$${(taxInfo.healthInsurance * EXCHANGE_RATE / 10000).toFixed(2)}${unitText}</td>
                             <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900 text-right">${((taxInfo.healthInsurance / taxInfo.totalIncome) * 100).toFixed(2)}%</td>
                         </tr>
                         <tr>
-                            <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900">厚生年金</td>
-                            <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900 text-right">${currencySymbol}${(taxInfo.pensionInsurance / 10000).toFixed(2)}萬</td>
-                            <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900 text-right">$${(taxInfo.pensionInsurance * EXCHANGE_RATE / 10000).toFixed(2)}萬</td>
+                            <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900">${t('results.pension_insurance')}</td>
+                            <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900 text-right">${currencySymbol}${(taxInfo.pensionInsurance / 10000).toFixed(2)}${unitText}</td>
+                            <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900 text-right">$${(taxInfo.pensionInsurance * EXCHANGE_RATE / 10000).toFixed(2)}${unitText}</td>
                             <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900 text-right">${((taxInfo.pensionInsurance / taxInfo.totalIncome) * 100).toFixed(2)}%</td>
                         </tr>
                         <tr>
-                            <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900">雇用保険料</td>
-                            <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900 text-right">${currencySymbol}${(taxInfo.employmentInsurance / 10000).toFixed(2)}萬</td>
-                            <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900 text-right">$${(taxInfo.employmentInsurance * EXCHANGE_RATE / 10000).toFixed(2)}萬</td>
+                            <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900">${t('results.employment_insurance')}</td>
+                            <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900 text-right">${currencySymbol}${(taxInfo.employmentInsurance / 10000).toFixed(2)}${unitText}</td>
+                            <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900 text-right">$${(taxInfo.employmentInsurance * EXCHANGE_RATE / 10000).toFixed(2)}${unitText}</td>
                             <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900 text-right">${((taxInfo.employmentInsurance / taxInfo.totalIncome) * 100).toFixed(2)}%</td>
                         </tr>
                     `}
                     <tr class="bg-gray-50 font-medium">
-                        <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900">稅後所得</td>
-                        <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900 text-right">${currencySymbol}${netIncomeInWan}萬</td>
-                        ${currency === 'JPY' ? `<td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900 text-right">$${twdConversion.netIncome}萬</td>` : ''}
+                        <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900">${t('results.net_income')}</td>
+                        <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900 text-right">${currencySymbol}${netIncomeInWan}${unitText}</td>
+                        ${currency === 'JPY' ? `<td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900 text-right">$${twdConversion.netIncome}${unitText}</td>` : ''}
                         <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900 text-right">${(100 - taxRate).toFixed(2)}%</td>
                     </tr>
                 </tbody>
@@ -390,6 +609,7 @@ function updatePieChart(canvasId, taxInfo, income, currency) {
     const netIncome = income - taxInfo.totalDeduction;
     const taxRate = ((taxInfo.totalDeduction / income) * 100).toFixed(2);
     const netRate = (100 - taxRate).toFixed(2);
+    const unitText = currentLanguage === 'en' ? '10K' : '萬';
     
     if (chartInstances[canvasId]) {
         chartInstances[canvasId].destroy();
@@ -413,18 +633,18 @@ function updatePieChart(canvasId, taxInfo, income, currency) {
 
     const labels = currency === 'TWD' ?
         [
-            `稅後所得 (${netRate}%)`,
-            `所得稅 (${((taxInfo.totalTax / income) * 100).toFixed(2)}%)`,
-            `健保費 (${((taxInfo.healthInsurance / income) * 100).toFixed(2)}%)`,
-            `勞保費 (${((taxInfo.laborInsurance / income) * 100).toFixed(2)}%)`
+            `${t('results.net_income')} (${netRate}%)`,
+            `${t('results.income_tax')} (${((taxInfo.totalTax / income) * 100).toFixed(2)}%)`,
+            `${t('results.health_insurance')} (${((taxInfo.healthInsurance / income) * 100).toFixed(2)}%)`,
+            `${t('results.labor_insurance')} (${((taxInfo.laborInsurance / income) * 100).toFixed(2)}%)`
         ] :
         [
-            `稅後所得 (${netRate}%)`,
-            `所得稅 (${((taxInfo.totalTax / income) * 100).toFixed(2)}%)`,
-            `住民稅 (${((taxInfo.residentTax / income) * 100).toFixed(2)}%)`,
-            `健康保険料 (${((taxInfo.healthInsurance / income) * 100).toFixed(2)}%)`,
-            `厚生年金 (${((taxInfo.pensionInsurance / income) * 100).toFixed(2)}%)`,
-            `雇用保険料 (${((taxInfo.employmentInsurance / income) * 100).toFixed(2)}%)`
+            `${t('results.net_income')} (${netRate}%)`,
+            `${t('results.income_tax')} (${((taxInfo.totalTax / income) * 100).toFixed(2)}%)`,
+            `${t('results.resident_tax')} (${((taxInfo.residentTax / income) * 100).toFixed(2)}%)`,
+            `${t('results.jp_health_insurance')} (${((taxInfo.healthInsurance / income) * 100).toFixed(2)}%)`,
+            `${t('results.pension_insurance')} (${((taxInfo.pensionInsurance / income) * 100).toFixed(2)}%)`,
+            `${t('results.employment_insurance')} (${((taxInfo.employmentInsurance / income) * 100).toFixed(2)}%)`
         ];
 
     const colors = currency === 'TWD' ?
@@ -457,7 +677,7 @@ function updatePieChart(canvasId, taxInfo, income, currency) {
                         label: function(context) {
                             const value = context.raw / 10000;
                             const currencySymbol = currency === 'TWD' ? '$' : '¥';
-                            return `${context.label}: ${currencySymbol}${value.toFixed(2)}萬`;
+                            return `${context.label}: ${currencySymbol}${value.toFixed(2)}${unitText}`;
                         }
                     }
                 }
@@ -469,6 +689,7 @@ function updatePieChart(canvasId, taxInfo, income, currency) {
 // 添加比較表更新函數
 function updateComparisonTable(twTax, jpTax) {
     const comparisonDiv = document.getElementById('comparison-table');
+    const unitText = currentLanguage === 'en' ? '10K' : '萬';
     
     // 計算日本的勞保總額（厚生年金 + 雇用保險）
     const jpLaborTotal = jpTax.pensionInsurance + jpTax.employmentInsurance;
@@ -476,35 +697,35 @@ function updateComparisonTable(twTax, jpTax) {
     // 準備比較數據
     const comparisons = [
         {
-            name: '所得稅',
+            name: t('results.income_tax'),
             tw: twTax.totalTax,
             jp: jpTax.totalTax * EXCHANGE_RATE,
             twRate: (twTax.totalTax / twTax.totalIncome * 100).toFixed(2),
             jpRate: (jpTax.totalTax / jpTax.totalIncome * 100).toFixed(2)
         },
         {
-            name: '健保費',
+            name: t('results.health_insurance'),
             tw: twTax.healthInsurance,
             jp: jpTax.healthInsurance * EXCHANGE_RATE,
             twRate: (twTax.healthInsurance / twTax.totalIncome * 100).toFixed(2),
             jpRate: (jpTax.healthInsurance / jpTax.totalIncome * 100).toFixed(2)
         },
         {
-            name: '勞保費',
+            name: t('results.labor_insurance'),
             tw: twTax.laborInsurance,
             jp: jpLaborTotal * EXCHANGE_RATE,
             twRate: (twTax.laborInsurance / twTax.totalIncome * 100).toFixed(2),
             jpRate: (jpLaborTotal / jpTax.totalIncome * 100).toFixed(2)
         },
         {
-            name: '住民稅',
+            name: t('results.resident_tax'),
             tw: 0,
             jp: jpTax.residentTax * EXCHANGE_RATE,
             twRate: '0.00',
             jpRate: (jpTax.residentTax / jpTax.totalIncome * 100).toFixed(2)
         },
         {
-            name: '總計',
+            name: t('results.total_tax'),
             tw: twTax.totalDeduction,
             jp: jpTax.totalDeduction * EXCHANGE_RATE,
             twRate: (twTax.totalDeduction / twTax.totalIncome * 100).toFixed(2),
@@ -514,28 +735,28 @@ function updateComparisonTable(twTax, jpTax) {
 
     const html = `
         <div class="overflow-x-auto">
-            <h2 class="text-xl font-semibold mb-4 text-gray-800">台日稅務比較</h2>
+            <h2 class="text-xl font-semibold mb-4 text-gray-800">${t('results.comparison_title')}</h2>
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
                     <tr>
-                        <th scope="col" class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">項目</th>
-                        <th scope="col" class="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">台灣金額</th>
-                        <th scope="col" class="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">比例</th>
-                        <th scope="col" class="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">日本金額</th>
-                        <th scope="col" class="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">比例</th>
-                        <th scope="col" class="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">差額</th>
+                        <th scope="col" class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">${t('results.category')}</th>
+                        <th scope="col" class="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">${t('results.taiwan')} ${t('results.amount')}</th>
+                        <th scope="col" class="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">${currentLanguage === 'zh-TW' ? '比例' : currentLanguage === 'ja' ? '割合' : 'Ratio'}</th>
+                        <th scope="col" class="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">${t('results.japan')} ${t('results.amount')}</th>
+                        <th scope="col" class="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">${currentLanguage === 'zh-TW' ? '比例' : currentLanguage === 'ja' ? '割合' : 'Ratio'}</th>
+                        <th scope="col" class="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">${currentLanguage === 'zh-TW' ? '差額' : currentLanguage === 'ja' ? '差額' : 'Difference'}</th>
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
                     ${comparisons.map((item, index) => `
                         <tr class="${index === comparisons.length - 1 ? 'bg-gray-50 font-medium' : ''}">
                             <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900">${item.name}</td>
-                            <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900 text-right">$${(item.tw / 10000).toFixed(2)}萬</td>
+                            <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900 text-right">$${(item.tw / 10000).toFixed(2)}${unitText}</td>
                             <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900 text-right">${item.twRate}%</td>
-                            <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900 text-right">$${(item.jp / 10000).toFixed(2)}萬</td>
+                            <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900 text-right">$${(item.jp / 10000).toFixed(2)}${unitText}</td>
                             <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900 text-right">${item.jpRate}%</td>
                             <td class="px-4 py-2 whitespace-nowrap text-sm ${(item.jp - item.tw) > 0 ? 'text-red-600' : 'text-green-600'} text-right">
-                                $${((item.jp - item.tw) / 10000).toFixed(2)}萬
+                                $${((item.jp - item.tw) / 10000).toFixed(2)}${unitText}
                             </td>
                         </tr>
                     `).join('')}
