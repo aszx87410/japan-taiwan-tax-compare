@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://aszx87410.github.io/japan-taiwan-tax-compare/sitemap.xml

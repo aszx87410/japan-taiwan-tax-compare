@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="{{locale}}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{t:meta.title}}</title>
+    <meta name="description" content="{{attr:meta.description}}">
+    <meta name="keywords" content="{{attr:meta.keywords}}">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <meta name="theme-color" content="#f9fafb">
+    <link rel="canonical" href="{{canonicalUrl}}">
+    {{hreflangLinks}}
+    <link rel="alternate" type="text/markdown" href="{{markdownUrl}}" title="{{attr:meta.markdown_title}}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="styles.css">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="{{attr:meta.site_name}}">
+    <meta property="og:title" content="{{attr:meta.title}}">
+    <meta property="og:description" content="{{attr:meta.description}}">
+    <meta property="og:image" content="https://aszx87410.github.io/japan-taiwan-tax-compare/cover.png">
+    <meta property="og:url" content="{{canonicalUrl}}">
+    <meta property="og:locale" content="{{ogLocale}}">
+    {{ogLocaleAlternateLinks}}
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{attr:meta.title}}">
+    <meta name="twitter:description" content="{{attr:meta.description}}">
+    <meta name="twitter:image" content="https://aszx87410.github.io/japan-taiwan-tax-compare/cover.png">
+    <script type="application/ld+json">
+{{jsonLd}}
+    </script>
+</head>
+<body class="bg-gray-50 text-gray-900">
+    <main class="app-shell">
+        <h1 class="app-title" data-i18n="main.title">{{t:main.title}}</h1>
+        <p class="app-summary" data-i18n="meta.summary">{{t:meta.summary}}</p>
+
+        <nav class="language-switcher-wrap" aria-label="Language selector">
+            <div class="language-switcher">
+                <a class="lang-btn{{active:zh-TW}}" href="{{url:zh-TW}}" hreflang="zh-TW" data-lang="zh-TW">
+                    中文
+                </a>
+                <a class="lang-btn{{active:ja}}" href="{{url:ja}}" hreflang="ja" data-lang="ja">
+                    日本語
+                </a>
+                <a class="lang-btn{{active:en}}" href="{{url:en}}" hreflang="en" data-lang="en">
+                    English
+                </a>
+            </div>
+        </nav>
+
+        <div class="exchange-rate">
+            <span id="exchange-rate-display" data-i18n="main.loading_rate">
+                {{t:main.loading_rate}}
+            </span>
+        </div>
+
+        <section class="input-section panel">
+            <div class="income-grid">
+                <div class="input-group">
+                    <label for="twd-income" class="block text-sm font-medium text-gray-700 mb-2" data-i18n="input.twd_income">
+                        {{t:input.twd_income}}
+                    </label>
+                    <div class="relative">
+                        <input type="text"
+                               inputmode="decimal"
+                               id="twd-income"
+                               value="{{inputDefaultTwd}}"
+                               data-i18n-placeholder="input.twd_placeholder"
+                               placeholder="{{attr:input.twd_placeholder}}"
+                               class="input-control [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none">
+                        <span class="input-unit" data-i18n="input.twd_unit">{{t:input.twd_unit}}</span>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label for="jpy-income" class="block text-sm font-medium text-gray-700 mb-2" data-i18n="input.jpy_income">
+                        {{t:input.jpy_income}}
+                    </label>
+                    <div class="relative">
+                        <input type="text"
+                               inputmode="decimal"
+                               id="jpy-income"
+                               value="{{inputDefaultJpy}}"
+                               data-i18n-placeholder="input.jpy_placeholder"
+                               placeholder="{{attr:input.jpy_placeholder}}"
+                               class="input-control [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none">
+                        <span class="input-unit" data-i18n="input.jpy_unit">{{t:input.jpy_unit}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="profile-row">
+                <div id="profile-label" class="profile-label" data-i18n="profiles.label">
+                    {{t:profiles.label}}
+                </div>
+                <div id="profile-options" class="language-switcher profile-switcher" role="radiogroup" aria-labelledby="profile-label">
+                    <button class="lang-btn profile-btn active" type="button" role="radio" aria-checked="true" data-profile-option="single">
+                        {{t:profiles.single}}
+                    </button>
+                    <button class="lang-btn profile-btn" type="button" role="radio" aria-checked="false" data-profile-option="married_no_child">
+                        {{t:profiles.married_no_child}}
+                    </button>
+                    <button class="lang-btn profile-btn" type="button" role="radio" aria-checked="false" data-profile-option="married_one_child_age_3">
+                        {{t:profiles.married_one_child_age_3}}
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section id="comparison-table" class="panel comparison-card">
+            <h2 class="comparison-title">{{t:results.comparison_title}}</h2>
+        </section>
+
+        <section class="results-grid">
+            <div class="country-result panel" id="tw-result">
+                <div class="result-header">
+                    <h2 class="section-title" data-i18n="results.taiwan_title">{{t:results.taiwan_title}}</h2>
+                    <button class="details-toggle" type="button" data-detail-toggle="taiwan" aria-expanded="false">
+                        {{t:details.show}}
+                    </button>
+                </div>
+                <div class="details text-sm text-gray-600 mb-6"></div>
+                <div class="chart-container">
+                    <canvas id="tw-chart"></canvas>
+                </div>
+            </div>
+            <div class="country-result panel" id="jp-result">
+                <div class="result-header">
+                    <h2 class="section-title" data-i18n="results.japan_title">{{t:results.japan_title}}</h2>
+                    <button class="details-toggle" type="button" data-detail-toggle="japan" aria-expanded="false">
+                        {{t:details.show}}
+                    </button>
+                </div>
+                <div class="details text-sm text-gray-600 mb-6"></div>
+                <div class="chart-container">
+                    <canvas id="jp-chart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <section id="data-sources" class="panel sources-panel">
+            <h2 class="section-title" data-i18n="sources.title">{{t:sources.title}}</h2>
+            <p class="sources-note" data-i18n="sources.note">{{t:sources.note}}</p>
+            <ul id="sources-list" class="sources-list"></ul>
+        </section>
+    </main>
+    <footer class="text-center p-4">
+        <a href="https://github.com/aszx87410/japan-taiwan-tax-compare" target="_blank" class="text-blue-500 hover:underline" data-i18n="footer.github">
+            {{t:footer.github}}
+        </a>
+    </footer>
+
+    <div id="calculation-modal" class="modal-root" hidden>
+        <div class="modal-backdrop" data-modal-close></div>
+        <section class="modal-panel calculation-modal-panel" role="dialog" aria-modal="true" aria-labelledby="calculation-modal-title">
+            <div class="modal-header">
+                <h2 id="calculation-modal-title" class="modal-title"></h2>
+                <button class="modal-close" type="button" data-modal-close aria-label="{{attr:details.close}}">
+                    ×
+                </button>
+            </div>
+            <div class="modal-body"></div>
+        </section>
+    </div>
+
+    <div id="bracket-modal" class="modal-root modal-root-nested" hidden>
+        <div class="modal-backdrop" data-modal-close></div>
+        <section class="modal-panel bracket-modal-panel" role="dialog" aria-modal="true" aria-labelledby="bracket-modal-title">
+            <div class="modal-header">
+                <h2 id="bracket-modal-title" class="modal-title"></h2>
+                <button class="modal-close" type="button" data-modal-close aria-label="{{attr:details.close}}">
+                    ×
+                </button>
+            </div>
+            <div class="modal-body"></div>
+        </section>
+    </div>
+
+    <script>
+        window.APP_LOCALE = "{{locale}}";
+    </script>
+    <script src="tax-rules.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

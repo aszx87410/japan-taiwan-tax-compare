@@ -1,0 +1,26 @@
+# Taiwan-Japan Tax Comparison Calculator
+
+> A free multilingual calculator for estimating 2026 salary income deductions in Taiwan and Japan, including income tax, resident tax, health insurance, labor insurance, pension, and employment insurance.
+
+## Canonical pages
+
+- [台日稅務比較計算器](https://aszx87410.github.io/japan-taiwan-tax-compare/)
+- [Taiwan-Japan Tax Comparison Calculator](https://aszx87410.github.io/japan-taiwan-tax-compare/en.html)
+- [台日税務比較計算機](https://aszx87410.github.io/japan-taiwan-tax-compare/ja.html)
+
+## LLM-readable summaries
+
+- [zh-TW Markdown summary](https://aszx87410.github.io/japan-taiwan-tax-compare/zh-TW.md)
+- [en Markdown summary](https://aszx87410.github.io/japan-taiwan-tax-compare/en.md)
+- [ja Markdown summary](https://aszx87410.github.io/japan-taiwan-tax-compare/ja.md)
+
+## Scope
+
+- The primary version is Traditional Chinese at /index.html.
+- The calculator has English and Japanese localized pages.
+- Figures are estimates based on official data available for 2026.
+- The app is not tax, legal, financial, or immigration advice.
+
+## Source code
+
+- [GitHub repository](https://github.com/aszx87410/japan-taiwan-tax-compare)

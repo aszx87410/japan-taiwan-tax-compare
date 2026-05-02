@@ -1,21 +1,87 @@
-/* Language Switcher Styles */
-.language-switcher {
+* {
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    margin: 0;
+    color: #111827;
+}
+
+body.modal-open {
+    overflow: hidden;
+}
+
+.app-shell {
+    width: min(100% - 2rem, 1120px);
+    margin: 0 auto;
+    padding: 2rem 0;
+}
+
+.app-title {
+    margin: 0 0 1rem;
+    color: #1f2937;
+    font-size: clamp(1.85rem, 4vw, 2.5rem);
+    font-weight: 800;
+    line-height: 1.15;
+    text-align: center;
+}
+
+.app-summary {
+    max-width: 48rem;
+    margin: -0.25rem auto 1.25rem;
+    color: #4b5563;
+    font-size: 1rem;
+    line-height: 1.75;
+    text-align: center;
+}
+
+.language-switcher-wrap {
     display: flex;
-    gap: 2px;
-    max-width: 200px;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+}
+
+.language-switcher {
+    display: inline-flex;
+    max-width: 100%;
+    gap: 0.25rem;
+    padding: 0.25rem;
+    overflow: hidden;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.625rem;
+    background: #fff;
+    box-shadow: 0 1px 2px rgb(15 23 42 / 0.08);
 }
 
 .lang-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 4.75rem;
+    padding: 0.625rem 0.875rem;
+    border: 0;
+    border-radius: 0.45rem;
     background-color: transparent;
     color: #6b7280;
-    border: none;
     cursor: pointer;
-    min-width: 60px;
+    font-size: 0.875rem;
+    font-weight: 700;
+    line-height: 1;
+    text-decoration: none;
+    white-space: nowrap;
+    word-break: keep-all;
+    transition: background-color 160ms ease, color 160ms ease;
 }
 
 .lang-btn:hover {
     background-color: #f3f4f6;
     color: #374151;
+}
+
+.lang-btn:focus-visible {
+    outline: 3px solid rgb(59 130 246 / 0.35);
+    outline-offset: 2px;
 }
 
 .lang-btn.active {
@@ -27,131 +93,778 @@
     background-color: #2563eb;
 }
 
+.exchange-rate {
+    margin-bottom: 1.25rem;
+    color: #4b5563;
+    font-size: 0.875rem;
+    text-align: center;
+}
+
+.panel {
+    width: 100%;
+    padding: 1.5rem;
+    border: 1px solid #eef2f7;
+    border-radius: 0.75rem;
+    background: #fff;
+    box-shadow: 0 8px 18px rgb(15 23 42 / 0.08);
+}
+
+.income-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem;
+}
+
+.profile-row {
+    display: grid;
+    grid-template-columns: minmax(8rem, max-content) minmax(0, 1fr);
+    gap: 0.75rem 1rem;
+    align-items: center;
+    margin-top: 1.25rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid #e5e7eb;
+}
+
+.profile-label {
+    color: #374151;
+    font-size: 0.875rem;
+    font-weight: 700;
+}
+
+.profile-switcher {
+    justify-self: start;
+    flex-wrap: wrap;
+    overflow: visible;
+    box-shadow: none;
+}
+
+.profile-btn {
+    min-width: auto;
+    white-space: normal;
+    line-height: 1.25;
+}
+
+.input-group .relative {
+    position: relative;
+}
+
+.input-control {
+    display: block;
+    width: 100%;
+    min-height: 3.125rem;
+    padding: 0.75rem 3.25rem 0.75rem 1rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    color: #111827;
+    font-size: 1rem;
+    line-height: 1.5;
+    outline: none;
+    transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.input-control:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgb(59 130 246 / 0.22);
+}
+
+.input-unit {
+    position: absolute;
+    top: 0;
+    right: 1rem;
+    bottom: 0;
+    display: inline-flex;
+    align-items: center;
+    color: #6b7280;
+    pointer-events: none;
+}
+
+.comparison-card {
+    margin: 2rem 0;
+}
+
+.comparison-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.comparison-currency-control {
+    display: inline-flex;
+    flex: 0 0 auto;
+    max-width: 100%;
+    gap: 0.25rem;
+    padding: 0.25rem;
+    overflow: hidden;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.625rem;
+    background: #fff;
+}
+
+.currency-btn {
+    min-width: 4rem;
+}
+
+.comparison-subtitle,
+.comparison-note {
+    color: #6b7280;
+    font-size: 0.875rem;
+    line-height: 1.5;
+}
+
+.comparison-subtitle {
+    margin: -0.35rem 0 0;
+}
+
+.comparison-note {
+    margin-top: 0.875rem;
+}
+
+.section-title,
+.comparison-title {
+    margin: 0 0 1rem;
+    color: #1f2937;
+    font-size: 1.375rem;
+    font-weight: 800;
+    line-height: 1.25;
+}
+
+.results-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem;
+    align-items: start;
+}
+
+.country-result {
+    min-width: 0;
+    overflow: hidden;
+}
+
+.result-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.result-header .section-title {
+    margin-bottom: 0;
+}
+
+.details {
+    margin-bottom: 1.5rem;
+}
+
+.details-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2.5rem;
+    flex: 0 0 auto;
+    padding: 0.55rem 0.875rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    background: #fff;
+    color: #1f2937;
+    cursor: pointer;
+    font-size: 0.875rem;
+    font-weight: 700;
+    line-height: 1.2;
+    transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease;
+}
+
+.details-toggle:hover {
+    border-color: #93c5fd;
+    background: #eff6ff;
+    color: #1d4ed8;
+}
+
+.details-toggle:focus-visible {
+    outline: 3px solid rgb(59 130 246 / 0.35);
+    outline-offset: 2px;
+}
+
+.calculation-details {
+    margin-top: 1rem;
+}
+
+.calculation-section {
+    padding: 1rem 0;
+    border-top: 1px solid #e5e7eb;
+}
+
+.calculation-section:first-child {
+    margin-top: 1rem;
+}
+
+.calculation-title {
+    margin: 0 0 0.35rem;
+    color: #111827;
+    font-size: 1rem;
+    font-weight: 800;
+    line-height: 1.3;
+}
+
+.calculation-intro {
+    margin: 0 0 0.75rem;
+    color: #4b5563;
+    font-size: 0.875rem;
+    line-height: 1.6;
+}
+
+.calculation-table {
+    min-width: 100%;
+    table-layout: fixed;
+}
+
+.calculation-table th:nth-child(1),
+.calculation-table td:nth-child(1) {
+    width: 4.75rem;
+}
+
+.calculation-table th:nth-child(2),
+.calculation-table td:nth-child(2) {
+    width: 28%;
+}
+
+.calculation-table th:nth-child(3),
+.calculation-table td:nth-child(3) {
+    width: 7.5rem;
+}
+
+.calculation-table td {
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+
+.operation-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 3.25rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 999px;
+    background: #f3f4f6;
+    color: #374151;
+    font-size: 0.75rem;
+    font-weight: 800;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+.operation-base {
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+
+.operation-subtract {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+.operation-add {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.operation-result {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.calculation-row-result td {
+    background: #fffbeb;
+    font-weight: 700;
+}
+
+.formula-cell {
+    color: #4b5563;
+    font-size: 0.8125rem;
+    line-height: 1.45;
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+
+.bracket-link {
+    display: inline-flex;
+    margin-top: 0.45rem;
+    padding: 0.35rem 0.55rem;
+    border: 1px solid #bfdbfe;
+    border-radius: 0.45rem;
+    background: #eff6ff;
+    color: #1d4ed8;
+    cursor: pointer;
+    font-size: 0.75rem;
+    font-weight: 800;
+    line-height: 1;
+}
+
+.bracket-link:hover {
+    border-color: #93c5fd;
+    background: #dbeafe;
+}
+
+.bracket-link:focus-visible {
+    outline: 3px solid rgb(59 130 246 / 0.35);
+    outline-offset: 2px;
+}
+
+.table-scroll {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    color: #111827;
+    font-size: 0.875rem;
+    font-variant-numeric: tabular-nums;
+}
+
+.data-table th,
+.data-table td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid #e5e7eb;
+    vertical-align: middle;
+}
+
+.data-table th {
+    background: #f9fafb;
+    color: #6b7280;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0;
+    text-transform: none;
+    white-space: nowrap;
+}
+
+.data-table td {
+    white-space: nowrap;
+}
+
+.data-table.calculation-table td {
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+
+.data-table.calculation-table .formula-cell {
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+
+.data-table th:first-child,
+.data-table td:first-child {
+    white-space: normal;
+}
+
+.data-table tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.data-table .summary-row td {
+    background: #f9fafb;
+    font-weight: 700;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.text-left {
+    text-align: left;
+}
+
+.amount-positive {
+    color: #dc2626;
+}
+
+.amount-negative {
+    color: #16a34a;
+}
+
+.amount-neutral {
+    color: #6b7280;
+}
+
+.comparison-table {
+    min-width: 100%;
+}
+
+.detail-table {
+    min-width: 100%;
+}
+
+.detail-table-jp {
+    min-width: 100%;
+}
+
 .chart-container {
     position: relative;
-    height: 300px;
-    width: 95%;
-    margin-top: 20px;
+    width: min(100%, 560px);
+    max-width: 100%;
+    height: 320px;
+    margin: 1.25rem auto 0;
+    overflow: hidden;
+}
+
+.chart-container canvas {
+    display: block;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 100% !important;
+}
+
+.modal-root[hidden] {
+    display: none;
+}
+
+.modal-root {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    display: grid;
+    place-items: center;
+    padding: 1rem;
+}
+
+.modal-root-nested {
+    z-index: 60;
+}
+
+.modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgb(15 23 42 / 0.55);
+}
+
+.modal-panel {
+    position: relative;
+    width: min(100%, 58rem);
+    max-height: min(86vh, 58rem);
+    overflow: hidden;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.75rem;
+    background: #fff;
+    box-shadow: 0 24px 70px rgb(15 23 42 / 0.28);
+}
+
+.bracket-modal-panel {
+    width: min(100%, 46rem);
+}
+
+.modal-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.modal-title {
+    margin: 0;
+    color: #111827;
+    font-size: 1.25rem;
+    font-weight: 800;
+    line-height: 1.3;
+}
+
+.modal-close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border: 1px solid #d1d5db;
+    border-radius: 999px;
+    background: #fff;
+    color: #4b5563;
+    cursor: pointer;
+    font-size: 1.3rem;
+    line-height: 1;
+}
+
+.modal-close:hover {
+    background: #f3f4f6;
+    color: #111827;
+}
+
+.modal-body {
+    max-height: calc(min(86vh, 58rem) - 4.75rem);
+    padding: 0 1.5rem 1.5rem;
+    overflow-y: auto;
+}
+
+.modal-body .calculation-section:first-child {
+    margin-top: 0;
+    border-top: 0;
+}
+
+.bracket-table td,
+.bracket-table th {
+    white-space: normal;
+}
+
+.active-bracket-row td {
+    background: #fffbeb;
+    color: #92400e;
+    font-weight: 800;
+}
+
+.bracket-note {
+    margin: 0.875rem 0 0;
+    color: #4b5563;
+    font-size: 0.875rem;
+    line-height: 1.5;
+}
+
+.sources-panel {
+    margin-top: 2rem;
+}
+
+.sources-note {
+    margin: -0.35rem 0 1rem;
+    color: #4b5563;
+    font-size: 0.875rem;
+    line-height: 1.6;
+}
+
+.sources-list {
+    display: grid;
+    gap: 0.45rem;
+    margin: 0;
+    padding-left: 1.25rem;
+    color: #374151;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    list-style: disc;
+}
+
+.sources-list a {
+    color: #1d4ed8;
+    font-size: 0.875rem;
+    font-weight: 700;
+    text-decoration: none;
+    overflow-wrap: anywhere;
+}
+
+.sources-list a:hover {
+    text-decoration: underline;
+}
+
+footer {
+    color: #4b5563;
+}
+
+@media (max-width: 560px) {
+    .comparison-card .table-scroll {
+        overflow: visible;
+    }
+
+    .comparison-table,
+    .comparison-table tbody,
+    .comparison-table tr,
+    .comparison-table td {
+        display: block;
+    }
+
+    .comparison-table thead {
+        display: none;
+    }
+
+    .comparison-table tbody {
+        display: grid;
+        gap: 0.75rem;
+    }
+
+    .comparison-table tr {
+        padding: 0.75rem;
+        border: 1px solid #e5e7eb;
+        border-radius: 0.625rem;
+        background: #fff;
+    }
+
+    .comparison-table tr.summary-row {
+        background: #f9fafb;
+    }
+
+    .comparison-table .summary-row td {
+        background: transparent;
+    }
+
+    .comparison-table td {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 0.35rem 0;
+        border-bottom: 0;
+        text-align: right;
+        white-space: normal;
+    }
+
+    .comparison-table td::before {
+        content: attr(data-label);
+        color: #6b7280;
+        flex: 1 1 auto;
+        font-weight: 700;
+        text-align: left;
+    }
+
+    .comparison-table td:first-child {
+        display: block;
+        margin-bottom: 0.35rem;
+        padding: 0 0 0.5rem;
+        border-bottom: 1px solid #e5e7eb;
+        color: #111827;
+        font-weight: 800;
+        text-align: left;
+    }
+
+    .comparison-table td:first-child::before {
+        content: none;
+    }
 }
 
 @media (max-width: 768px) {
+    .app-shell {
+        width: min(100% - 1rem, 1120px);
+        padding: 1.5rem 0;
+    }
+
+    .panel {
+        padding: 1.25rem;
+        border-radius: 0.625rem;
+    }
+
+    .income-grid,
+    .results-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .profile-row {
+        grid-template-columns: 1fr;
+    }
+
+    .profile-switcher {
+        justify-self: stretch;
+    }
+
+    .profile-btn {
+        flex: 1 1 9rem;
+    }
+
+    .comparison-header,
+    .result-header {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .comparison-currency-control {
+        align-self: stretch;
+    }
+
+    .currency-btn {
+        flex: 1 1 0;
+        min-width: 0;
+    }
+
+    .comparison-card {
+        margin: 1.5rem 0;
+    }
+
+    .data-table {
+        font-size: 0.8125rem;
+    }
+
+    .data-table th,
+    .data-table td {
+        padding: 0.65rem 0.55rem;
+    }
+
     .chart-container {
-        height: 250px;
-    }
-    
-    /* Language switcher mobile styles */
-    .language-switcher {
-        max-width: 180px;
-        gap: 1px;
-    }
-    
-    .lang-btn {
-        min-width: 50px;
-        font-size: 0.75rem;
-        padding: 0.5rem 0.25rem;
-    }
-    
-    /* 調整表格在手機上的顯示 */
-    .overflow-x-auto {
-        margin: 0;  /* 移除負邊距 */
-        padding: 0; /* 移除內邊距 */
-        width: 100%; /* 確保表格佔滿寬度 */
-        overflow-x: auto; /* 允許水平滾動 */
-    }
-    
-    /* 調整表格文字大小 */
-    .text-sm {
-        font-size: 0.75rem !important;
-    }
-    
-    /* 調整表格 padding */
-    .px-4 {
-        padding-left: 0.5rem !important;
-        padding-right: 0.5rem !important;
-    }
-    
-    /* 調整圖表標籤大小 */
-    canvas {
-        height: 200px !important;
+        height: 280px;
     }
 
-    /* 確保輸入區塊和表格佔滿寬度 */
-    .input-section,
-    #comparison-table,
-    .country-result {
-        width: 100% !important;
-        margin-left: 0 !important;
-        margin-right: 0 !important;
+    .modal-root {
+        padding: 0.5rem;
     }
 
-    /* 調整 grid 布局 */
-    .grid {
-        grid-template-columns: 1fr !important;
+    .modal-panel {
+        max-height: 92vh;
     }
 
-    /* 移除不必要的間距 */
-    .container {
-        padding-left: 0.5rem !important;
-        padding-right: 0.5rem !important;
+    .modal-header {
+        padding: 1rem;
     }
 
-    /* 調整 gap */
-    .gap-6 {
-        gap: 1rem !important;
+    .modal-body {
+        max-height: calc(92vh - 4.25rem);
+        padding: 0 1rem 1rem;
     }
 }
 
-/* 特別針對更小的螢幕 */
-@media (max-width: 375px) {
-    /* Language switcher for very small screens */
+@media (max-width: 480px) {
+    .app-shell {
+        width: min(100% - 0.75rem, 1120px);
+        padding: 1.25rem 0;
+    }
+
+    .app-title {
+        margin-bottom: 0.875rem;
+    }
+
     .language-switcher {
-        max-width: 160px;
+        width: 100%;
+        max-width: 22rem;
     }
-    
+
+    .profile-switcher {
+        max-width: none;
+    }
+
     .lang-btn {
-        min-width: 45px;
-        font-size: 0.7rem;
-        padding: 0.375rem 0.125rem;
-    }
-    
-    /* 調整卡片內邊距 */
-    .p-6 {
-        padding: 1rem !important;
-    }
-    
-    /* 進一步縮小文字 */
-    .text-sm {
-        font-size: 0.7rem !important;
-    }
-    
-    /* 調整標題大小 */
-    .text-3xl {
-        font-size: 1.5rem !important;
-    }
-    
-    .text-xl {
-        font-size: 1.25rem !important;
-    }
-    
-    /* 調整輸入框和標籤 */
-    .input-group input {
-        font-size: 0.875rem !important;
-        padding: 0.5rem !important;
-    }
-    
-    .input-group label {
-        font-size: 0.875rem !important;
+        flex: 1 1 0;
+        min-width: 0;
+        padding: 0.625rem 0.5rem;
+        font-size: 0.8125rem;
     }
 
-    /* 確保所有區塊完全貼合螢幕邊緣 */
-    .container {
-        padding-left: 0.25rem !important;
-        padding-right: 0.25rem !important;
+    .panel {
+        padding: 1rem;
     }
 
-    /* 調整卡片邊距 */
-    .my-8 {
-        margin-top: 1rem !important;
-        margin-bottom: 1rem !important;
+    .section-title,
+    .comparison-title {
+        font-size: 1.25rem;
     }
-} 
+
+    .data-table {
+        font-size: 0.8125rem;
+    }
+
+    .data-table th,
+    .data-table td {
+        padding: 0.65rem 0.75rem;
+    }
+
+    .comparison-table {
+        font-size: 0.75rem;
+    }
+
+    .comparison-table th,
+    .comparison-table td {
+        padding: 0.6rem 0.35rem;
+    }
+
+    .chart-container {
+        height: 250px;
+    }
+}

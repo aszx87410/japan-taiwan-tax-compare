@@ -1,34 +1,34 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>台日稅務比較計算器</title>
-    <meta name="description" content="2026 台日稅務比較計算器，估算台灣與日本薪資所得的所得稅、住民稅、健保、勞保、厚生年金與雇用保險差異。">
-    <meta name="keywords" content="台日稅務比較,日本所得稅,台灣所得稅,日本住民稅,厚生年金,台灣健保,勞保,稅後收入計算器">
+    <title>Taiwan-Japan Tax Comparison Calculator</title>
+    <meta name="description" content="A 2026 Taiwan-Japan tax comparison calculator for salary income, including income tax, resident tax, health insurance, labor insurance, pension, and employment insurance.">
+    <meta name="keywords" content="Taiwan Japan tax comparison,Japan income tax,Taiwan income tax,Tokyo resident tax,employees pension,Taiwan NHI,labor insurance,net income calculator">
     <meta name="robots" content="index, follow, max-image-preview:large">
     <meta name="theme-color" content="#f9fafb">
-    <link rel="canonical" href="https://aszx87410.github.io/japan-taiwan-tax-compare/">
+    <link rel="canonical" href="https://aszx87410.github.io/japan-taiwan-tax-compare/en.html">
     <link rel="alternate" hreflang="zh-TW" href="https://aszx87410.github.io/japan-taiwan-tax-compare/">
     <link rel="alternate" hreflang="en" href="https://aszx87410.github.io/japan-taiwan-tax-compare/en.html">
     <link rel="alternate" hreflang="ja" href="https://aszx87410.github.io/japan-taiwan-tax-compare/ja.html">
     <link rel="alternate" hreflang="x-default" href="https://aszx87410.github.io/japan-taiwan-tax-compare/">
-    <link rel="alternate" type="text/markdown" href="https://aszx87410.github.io/japan-taiwan-tax-compare/zh-TW.md" title="台日稅務比較計算器 Markdown 摘要">
+    <link rel="alternate" type="text/markdown" href="https://aszx87410.github.io/japan-taiwan-tax-compare/en.md" title="Taiwan-Japan Tax Comparison Calculator Markdown Summary">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="styles.css">
     <meta property="og:type" content="website">
-    <meta property="og:site_name" content="台日稅務比較計算器">
-    <meta property="og:title" content="台日稅務比較計算器">
-    <meta property="og:description" content="2026 台日稅務比較計算器，估算台灣與日本薪資所得的所得稅、住民稅、健保、勞保、厚生年金與雇用保險差異。">
+    <meta property="og:site_name" content="Taiwan-Japan Tax Comparison Calculator">
+    <meta property="og:title" content="Taiwan-Japan Tax Comparison Calculator">
+    <meta property="og:description" content="A 2026 Taiwan-Japan tax comparison calculator for salary income, including income tax, resident tax, health insurance, labor insurance, pension, and employment insurance.">
     <meta property="og:image" content="https://aszx87410.github.io/japan-taiwan-tax-compare/cover.png">
-    <meta property="og:url" content="https://aszx87410.github.io/japan-taiwan-tax-compare/">
-    <meta property="og:locale" content="zh_TW">
-    <meta property="og:locale:alternate" content="en_US">
+    <meta property="og:url" content="https://aszx87410.github.io/japan-taiwan-tax-compare/en.html">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:locale:alternate" content="zh_TW">
     <meta property="og:locale:alternate" content="ja_JP">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="台日稅務比較計算器">
-    <meta name="twitter:description" content="2026 台日稅務比較計算器，估算台灣與日本薪資所得的所得稅、住民稅、健保、勞保、厚生年金與雇用保險差異。">
+    <meta name="twitter:title" content="Taiwan-Japan Tax Comparison Calculator">
+    <meta name="twitter:description" content="A 2026 Taiwan-Japan tax comparison calculator for salary income, including income tax, resident tax, health insurance, labor insurance, pension, and employment insurance.">
     <meta name="twitter:image" content="https://aszx87410.github.io/japan-taiwan-tax-compare/cover.png">
     <script type="application/ld+json">
         {
@@ -36,11 +36,11 @@
           "@graph": [
             {
               "@type": "WebApplication",
-              "@id": "https://aszx87410.github.io/japan-taiwan-tax-compare/#app",
-              "name": "台日稅務比較計算器",
-              "description": "2026 台日稅務比較計算器，估算台灣與日本薪資所得的所得稅、住民稅、健保、勞保、厚生年金與雇用保險差異。",
-              "url": "https://aszx87410.github.io/japan-taiwan-tax-compare/",
-              "inLanguage": "zh-TW",
+              "@id": "https://aszx87410.github.io/japan-taiwan-tax-compare/en.html#app",
+              "name": "Taiwan-Japan Tax Comparison Calculator",
+              "description": "A 2026 Taiwan-Japan tax comparison calculator for salary income, including income tax, resident tax, health insurance, labor insurance, pension, and employment insurance.",
+              "url": "https://aszx87410.github.io/japan-taiwan-tax-compare/en.html",
+              "inLanguage": "en",
               "applicationCategory": "FinanceApplication",
               "operatingSystem": "Any",
               "isAccessibleForFree": true,
@@ -53,31 +53,31 @@
             },
             {
               "@type": "FAQPage",
-              "@id": "https://aszx87410.github.io/japan-taiwan-tax-compare/#faq",
-              "inLanguage": "zh-TW",
+              "@id": "https://aszx87410.github.io/japan-taiwan-tax-compare/en.html#faq",
+              "inLanguage": "en",
               "mainEntity": [
                 {
                   "@type": "Question",
-                  "name": "這個計算器比較哪些台灣與日本稅務項目？",
+                  "name": "Which Taiwan and Japan tax items does this calculator compare?",
                   "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "它估算台灣所得稅、健保、勞保、就業保險，以及日本所得稅、復興特別所得稅、東京住民稅、健康保險、厚生年金與雇用保險。"
+                    "text": "It estimates Taiwan income tax, NHI, labor insurance, employment insurance, plus Japan income tax, special reconstruction income tax, Tokyo resident tax, health insurance, employees' pension, and employment insurance."
                   }
                 },
                 {
                   "@type": "Question",
-                  "name": "資料年度是什麼？",
+                  "name": "Which data year does it use?",
                   "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "資料以 2026 年可查官方資料為準，實際金額仍以主管機關與個人申報條件為準。"
+                    "text": "Figures are based on official data available for 2026. Actual liabilities still depend on government rules and individual filing details."
                   }
                 },
                 {
                   "@type": "Question",
-                  "name": "可以比較哪些身份情境？",
+                  "name": "Which household scenarios are supported?",
                   "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "可以比較單身、結婚沒小孩、結婚有一個 3 歲小孩三種情境；配偶假設無收入。"
+                    "text": "It supports single, married with no child, and married with one 3-year-old child. Spouse income is assumed to be 0."
                   }
                 }
               ]
@@ -88,18 +88,18 @@
 </head>
 <body class="bg-gray-50 text-gray-900">
     <main class="app-shell">
-        <h1 class="app-title" data-i18n="main.title">台日稅務計算機</h1>
-        <p class="app-summary" data-i18n="meta.summary">以 2026 年可查官方資料估算台灣與日本薪資所得的稅後收入，包含台灣所得稅、健保、勞保、就保，以及日本所得稅、東京住民稅、健康保險、厚生年金與雇用保險。</p>
+        <h1 class="app-title" data-i18n="main.title">Taiwan-Japan Tax Comparison Calculator</h1>
+        <p class="app-summary" data-i18n="meta.summary">Estimate after-tax salary income in Taiwan and Japan using official data available for 2026. The calculator covers Taiwan income tax, NHI, labor insurance, employment insurance, Japan income tax, Tokyo resident tax, health insurance, employees&#39; pension, and employment insurance.</p>
 
         <nav class="language-switcher-wrap" aria-label="Language selector">
             <div class="language-switcher">
-                <a class="lang-btn active" href="index.html" hreflang="zh-TW" data-lang="zh-TW">
+                <a class="lang-btn" href="index.html" hreflang="zh-TW" data-lang="zh-TW">
                     中文
                 </a>
                 <a class="lang-btn" href="ja.html" hreflang="ja" data-lang="ja">
                     日本語
                 </a>
-                <a class="lang-btn" href="en.html" hreflang="en" data-lang="en">
+                <a class="lang-btn active" href="en.html" hreflang="en" data-lang="en">
                     English
                 </a>
             </div>
@@ -107,7 +107,7 @@
 
         <div class="exchange-rate">
             <span id="exchange-rate-display" data-i18n="main.loading_rate">
-                載入匯率中...
+                Loading exchange rate...
             </span>
         </div>
 
@@ -115,63 +115,63 @@
             <div class="income-grid">
                 <div class="input-group">
                     <label for="twd-income" class="block text-sm font-medium text-gray-700 mb-2" data-i18n="input.twd_income">
-                        台幣年收入（萬元）：
+                        TWD annual income:
                     </label>
                     <div class="relative">
                         <input type="text"
                                inputmode="decimal"
                                id="twd-income"
-                               value="202.00"
+                               value="2020000"
                                data-i18n-placeholder="input.twd_placeholder"
-                               placeholder="請輸入台幣金額"
+                               placeholder="e.g. 1200000"
                                class="input-control [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none">
-                        <span class="input-unit" data-i18n="input.twd_unit">萬</span>
+                        <span class="input-unit" data-i18n="input.twd_unit">TWD</span>
                     </div>
                 </div>
                 <div class="input-group">
                     <label for="jpy-income" class="block text-sm font-medium text-gray-700 mb-2" data-i18n="input.jpy_income">
-                        日幣年收入（萬元）：
+                        JPY annual income:
                     </label>
                     <div class="relative">
                         <input type="text"
                                inputmode="decimal"
                                id="jpy-income"
-                               value="1000"
+                               value="10000000"
                                data-i18n-placeholder="input.jpy_placeholder"
-                               placeholder="請輸入日幣金額"
+                               placeholder="e.g. 10000000"
                                class="input-control [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none">
-                        <span class="input-unit" data-i18n="input.jpy_unit">萬</span>
+                        <span class="input-unit" data-i18n="input.jpy_unit">JPY</span>
                     </div>
                 </div>
             </div>
             <div class="profile-row">
                 <div id="profile-label" class="profile-label" data-i18n="profiles.label">
-                    身份情境
+                    Household
                 </div>
                 <div id="profile-options" class="language-switcher profile-switcher" role="radiogroup" aria-labelledby="profile-label">
                     <button class="lang-btn profile-btn active" type="button" role="radio" aria-checked="true" data-profile-option="single">
-                        單身
+                        Single
                     </button>
                     <button class="lang-btn profile-btn" type="button" role="radio" aria-checked="false" data-profile-option="married_no_child">
-                        結婚，沒有小孩
+                        Married, no child
                     </button>
                     <button class="lang-btn profile-btn" type="button" role="radio" aria-checked="false" data-profile-option="married_one_child_age_3">
-                        結婚，有一個 3 歲小孩
+                        Married, one 3-year-old child
                     </button>
                 </div>
             </div>
         </section>
 
         <section id="comparison-table" class="panel comparison-card">
-            <h2 class="comparison-title">稅務比較</h2>
+            <h2 class="comparison-title">Tax Comparison</h2>
         </section>
 
         <section class="results-grid">
             <div class="country-result panel" id="tw-result">
                 <div class="result-header">
-                    <h2 class="section-title" data-i18n="results.taiwan_title">台灣稅務計算結果</h2>
+                    <h2 class="section-title" data-i18n="results.taiwan_title">Taiwan Tax Calculation Results</h2>
                     <button class="details-toggle" type="button" data-detail-toggle="taiwan" aria-expanded="false">
-                        查看計算過程
+                        Show calculation details
                     </button>
                 </div>
                 <div class="details text-sm text-gray-600 mb-6"></div>
@@ -181,9 +181,9 @@
             </div>
             <div class="country-result panel" id="jp-result">
                 <div class="result-header">
-                    <h2 class="section-title" data-i18n="results.japan_title">日本稅務計算結果</h2>
+                    <h2 class="section-title" data-i18n="results.japan_title">Japan Tax Calculation Results</h2>
                     <button class="details-toggle" type="button" data-detail-toggle="japan" aria-expanded="false">
-                        查看計算過程
+                        Show calculation details
                     </button>
                 </div>
                 <div class="details text-sm text-gray-600 mb-6"></div>
@@ -194,14 +194,14 @@
         </section>
 
         <section id="data-sources" class="panel sources-panel">
-            <h2 class="section-title" data-i18n="sources.title">資料來源</h2>
-            <p class="sources-note" data-i18n="sources.note">資料以 2026 年可查官方資料為準，實際金額仍以主管機關與個人申報條件為準。</p>
+            <h2 class="section-title" data-i18n="sources.title">Sources</h2>
+            <p class="sources-note" data-i18n="sources.note">Figures are based on official data available for 2026. Actual liabilities still depend on government rules and individual filing details.</p>
             <ul id="sources-list" class="sources-list"></ul>
         </section>
     </main>
     <footer class="text-center p-4">
         <a href="https://github.com/aszx87410/japan-taiwan-tax-compare" target="_blank" class="text-blue-500 hover:underline" data-i18n="footer.github">
-            GitHub 網址
+            GitHub Repository
         </a>
     </footer>
 
@@ -210,7 +210,7 @@
         <section class="modal-panel calculation-modal-panel" role="dialog" aria-modal="true" aria-labelledby="calculation-modal-title">
             <div class="modal-header">
                 <h2 id="calculation-modal-title" class="modal-title"></h2>
-                <button class="modal-close" type="button" data-modal-close aria-label="關閉">
+                <button class="modal-close" type="button" data-modal-close aria-label="Close">
                     ×
                 </button>
             </div>
@@ -223,7 +223,7 @@
         <section class="modal-panel bracket-modal-panel" role="dialog" aria-modal="true" aria-labelledby="bracket-modal-title">
             <div class="modal-header">
                 <h2 id="bracket-modal-title" class="modal-title"></h2>
-                <button class="modal-close" type="button" data-modal-close aria-label="關閉">
+                <button class="modal-close" type="button" data-modal-close aria-label="Close">
                     ×
                 </button>
             </div>
@@ -232,7 +232,7 @@
     </div>
 
     <script>
-        window.APP_LOCALE = "zh-TW";
+        window.APP_LOCALE = "en";
     </script>
     <script src="tax-rules.js"></script>
     <script src="script.js"></script>
