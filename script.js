@@ -320,6 +320,23 @@ function renderCalculationSections(taxInfo, currency) {
                             const bracketButton = row.bracketTable
                                 ? `<button class="bracket-link" type="button" data-bracket-index="${registerBracketTable(row.bracketTable)}">${t('details.view_brackets')}</button>`
                                 : '';
+                            if (row.operation === 'result') {
+                                return `
+                                    <tr class="calculation-row calculation-row-result">
+                                        <td class="calculation-result-cell" colspan="4">
+                                            <div class="calculation-result-grid">
+                                                <div><span class="operation-pill operation-result">${t('details.operations.result')}</span></div>
+                                                <div>${t(row.labelKey)}</div>
+                                                <div class="text-right">${formatMoney(row.amount, currency)}</div>
+                                                <div class="formula-cell">
+                                                    <div>${formula || '-'}</div>
+                                                    ${bracketButton}
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                `;
+                            }
                             return `
                                 <tr class="calculation-row calculation-row-${row.operation}">
                                     <td><span class="operation-pill operation-${row.operation}">${t(`details.operations.${row.operation}`)}</span></td>

@@ -342,39 +342,54 @@ body.modal-open {
 }
 
 .calculation-table {
-    min-width: 58rem;
+    width: 100%;
+    min-width: max-content;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: #fff;
     table-layout: fixed;
 }
 
 .calculation-table th:nth-child(1),
 .calculation-table td:nth-child(1) {
-    width: 4.75rem;
+    width: 4.25rem;
 }
 
 .calculation-table th:nth-child(2),
 .calculation-table td:nth-child(2) {
-    width: 28%;
+    width: 10rem;
 }
 
 .calculation-table th:nth-child(3),
 .calculation-table td:nth-child(3) {
-    width: 7.5rem;
+    width: 6.75rem;
+}
+
+.calculation-table th:nth-child(4),
+.calculation-table td:nth-child(4) {
+    width: auto;
+    min-width: 14rem;
 }
 
 .calculation-table td {
+    background: #fff;
     white-space: nowrap;
+}
+
+.calculation-table th {
+    background: #f9fafb;
 }
 
 .operation-pill {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-width: 3.25rem;
-    padding: 0.25rem 0.5rem;
+    min-width: 2.75rem;
+    padding: 0.22rem 0.4rem;
     border-radius: 999px;
     background: #f3f4f6;
     color: #374151;
-    font-size: 0.75rem;
+    font-size: 0.6875rem;
     font-weight: 800;
     line-height: 1;
     white-space: nowrap;
@@ -403,6 +418,23 @@ body.modal-open {
 .calculation-row-result td {
     background: #fffbeb;
     font-weight: 700;
+}
+
+.calculation-row-result .calculation-result-cell {
+    padding: 0;
+}
+
+.calculation-result-grid {
+    display: grid;
+    grid-template-columns: 4.25rem 10rem 6.75rem minmax(14rem, 1fr);
+    align-items: center;
+    min-width: max-content;
+    background: #fffbeb;
+}
+
+.calculation-result-grid > div {
+    min-width: 0;
+    padding: 0.75rem 1rem;
 }
 
 .formula-cell {
@@ -440,6 +472,7 @@ body.modal-open {
     width: 100%;
     max-width: 100%;
     overflow-x: auto;
+    background: #fff;
     -webkit-overflow-scrolling: touch;
 }
 
@@ -847,6 +880,53 @@ footer {
     .data-table th,
     .data-table td {
         padding: 0.65rem 0.75rem;
+    }
+
+    .calculation-table {
+        font-size: 0.6875rem;
+    }
+
+    .calculation-table th,
+    .calculation-table td {
+        padding: 0.5rem 0.3rem;
+    }
+
+    .calculation-table th:nth-child(1),
+    .calculation-table td:nth-child(1) {
+        width: 3.4rem;
+    }
+
+    .calculation-table th:nth-child(2),
+    .calculation-table td:nth-child(2) {
+        width: 7.2rem;
+    }
+
+    .calculation-table th:nth-child(3),
+    .calculation-table td:nth-child(3) {
+        width: 5.6rem;
+    }
+
+    .calculation-table th:nth-child(4),
+    .calculation-table td:nth-child(4) {
+        min-width: 10rem;
+    }
+
+    .calculation-result-grid {
+        grid-template-columns: 3.4rem 7.2rem 5.6rem minmax(10rem, 1fr);
+    }
+
+    .calculation-result-grid > div {
+        padding: 0.5rem 0.3rem;
+    }
+
+    .operation-pill {
+        min-width: 2.25rem;
+        padding: 0.18rem 0.3rem;
+        font-size: 0.625rem;
+    }
+
+    .formula-cell {
+        font-size: 0.6875rem;
     }
 
     .comparison-table {
