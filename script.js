@@ -110,6 +110,15 @@ function formatRate(numerator, denominator) {
     return `${(numerator / denominator * 100).toFixed(2)}%`;
 }
 
+function escapeHtml(value) {
+    return String(value)
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#39;');
+}
+
 function updatePageLanguage() {
     document.documentElement.lang = currentLanguage;
     document.title = t('meta.title');
@@ -586,7 +595,10 @@ function updateComparisonTable(twTax, jpTax) {
     comparisonDiv.innerHTML = `
         <div class="comparison-header">
             <div>
-                <h2 class="comparison-title">${t('results.comparison_title')}</h2>
+                <div class="title-with-action">
+                    <h2 class="comparison-title">${t('results.comparison_title')}</h2>
+                    <button class="share-toggle" type="button" data-share-target="comparison">${t('share.button')}</button>
+                </div>
                 <div class="comparison-subtitle">${t('profiles.current', [t(`profiles.${currentProfileId}`)])}</div>
             </div>
             <div class="comparison-currency-control" role="radiogroup" aria-label="${t('results.currency_mode')}">
@@ -635,6 +647,163 @@ function updateComparisonTable(twTax, jpTax) {
         </div>
         <div class="comparison-note">${t(comparisonNoteKey, comparisonNoteValue ? [comparisonNoteValue] : [])}</div>
     `;
+}
+
+function drawShareCard(payload) {
+    const width = 1200;
+    const rowHeight = 58;
+    const height = 240 + payload.rows.length * rowHeight;
+    const canvas = document.createElement('canvas');
+    canvas.width = width;
+    canvas.height = height;
+    const ctx = canvas.getContext('2d');
+
+    ctx.fillStyle = '#f8fafc';
+    ctx.fillRect(0, 0, width, height);
+
+    ctx.fillStyle = '#ffffff';
+    ctx.beginPath();
+    ctx.roundRect(40, 40, width - 80, height - 80, 28);
+    ctx.fill();
+
+    ctx.fillStyle = '#111827';
+    ctx.font = '700 42px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+    ctx.fillText(payload.title, 78, 105, width - 156);
+
+    ctx.fillStyle = '#4b5563';
+    ctx.font = '500 24px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+    ctx.fillText(payload.subtitle, 80, 150, width - 160);
+
+    ctx.strokeStyle = '#e5e7eb';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(80, 190);
+    ctx.lineTo(width - 80, 190);
+    ctx.stroke();
+
+    ctx.font = '700 22px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+    ctx.fillStyle = '#6b7280';
+    payload.columns.forEach(column => {
+        ctx.textAlign = column.align || 'left';
+        ctx.fillText(column.label, column.x, 225, column.maxWidth);
+    });
+
+    payload.rows.forEach((row, rowIndex) => {
+        const y = 270 + rowIndex * rowHeight;
+        if (row.summary) {
+            ctx.fillStyle = '#f9fafb';
+            ctx.fillRect(70, y - 34, width - 140, rowHeight);
+        }
+
+        ctx.fillStyle = row.summary ? '#111827' : '#374151';
+        ctx.font = `${row.summary ? '800' : '600'} 24px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif`;
+        row.cells.forEach((cell, cellIndex) => {
+            const column = payload.columns[cellIndex];
+            ctx.textAlign = column.align || 'left';
+            ctx.fillText(cell, column.x, y, column.maxWidth);
+        });
+
+        ctx.strokeStyle = '#eef2f7';
+        ctx.beginPath();
+        ctx.moveTo(80, y + 20);
+        ctx.lineTo(width - 80, y + 20);
+        ctx.stroke();
+    });
+
+    return canvas.toDataURL('image/png');
+}
+
+function shareSubtitle() {
+    return t('share.subtitle', [
+        t(`profiles.${currentProfileId}`),
+        EXCHANGE_RATE.toFixed(4)
+    ]);
+}
+
+function buildSummarySharePayload(country) {
+    const taxInfo = latestTaxResults[country];
+    if (!taxInfo) return null;
+
+    const currency = country === 'japan' ? 'JPY' : 'TWD';
+    const titleKey = country === 'japan' ? 'results.japan_title' : 'results.taiwan_title';
+    const rows = summaryRowsForTaxInfo(taxInfo, currency).map(row => {
+        const amount = formatMoney(row.amount, currency);
+        return {
+            summary: row.summary || row.key === 'results.total_deductions',
+            cells: [
+                t(row.key),
+                amount,
+                formatRate(row.amount, taxInfo.totalIncome)
+            ]
+        };
+    });
+
+    return {
+        title: t(titleKey),
+        subtitle: shareSubtitle(),
+        columns: [
+            { label: t('results.category'), x: 80, maxWidth: 420 },
+            { label: t('results.amount'), x: 760, align: 'right', maxWidth: 360 },
+            { label: t('results.ratio'), x: 1080, align: 'right', maxWidth: 140 }
+        ],
+        rows
+    };
+}
+
+function buildComparisonSharePayload() {
+    const twTax = latestTaxResults.taiwan;
+    const jpTax = latestTaxResults.japan;
+    if (!twTax || !jpTax) return null;
+
+    const comparisonRows = [
+        [t('results.income_tax'), twTax.incomeTax, jpTax.incomeTax],
+        [t('results.resident_tax'), 0, jpTax.residentTax],
+        [t('results.health_insurance'), twTax.healthInsurance, jpTax.healthInsurance],
+        [t('results.pension_labor_insurance'), twTax.laborInsurance, jpTax.pensionInsurance],
+        [t('results.employment_insurance'), twTax.employmentInsurance, jpTax.employmentInsurance],
+        [t('results.total_deductions'), twTax.totalDeduction, jpTax.totalDeduction, true],
+        [t('results.net_income'), twTax.netIncome, jpTax.netIncome, true]
+    ];
+
+    return {
+        title: t('results.comparison_title'),
+        subtitle: shareSubtitle(),
+        columns: [
+            { label: t('results.category'), x: 80, maxWidth: 300 },
+            { label: t('results.taiwan'), x: 520, align: 'right', maxWidth: 210 },
+            { label: t('results.japan'), x: 790, align: 'right', maxWidth: 210 },
+            { label: t('results.difference'), x: 1080, align: 'right', maxWidth: 240 }
+        ],
+        rows: comparisonRows.map(([label, twAmount, jpAmount, summary]) => {
+            const convertedJp = jpAmount * EXCHANGE_RATE;
+            return {
+                summary: Boolean(summary),
+                cells: [
+                    label,
+                    formatMoney(twAmount, 'TWD'),
+                    formatMoney(convertedJp, 'TWD'),
+                    formatMoney(convertedJp - twAmount, 'TWD')
+                ]
+            };
+        })
+    };
+}
+
+function openShareModal(target) {
+    const payload = target === 'comparison'
+        ? buildComparisonSharePayload()
+        : buildSummarySharePayload(target);
+    if (!payload) return;
+
+    const dataUrl = drawShareCard(payload);
+    const fileName = `tax-${target}-${currentProfileId}.png`;
+    const html = `
+        <div class="share-preview">
+            <img src="${dataUrl}" alt="${escapeHtml(t('share.generated_alt'))}">
+            <a class="share-download" href="${dataUrl}" download="${escapeHtml(fileName)}">${t('share.download')}</a>
+        </div>
+    `;
+    openModal('share-modal', t('share.modal_title', [payload.title]), html);
 }
 
 function recalculateFromJpyInput() {
@@ -688,6 +857,12 @@ function bindEvents() {
             return;
         }
 
+        const shareButton = event.target.closest('[data-share-target]');
+        if (shareButton) {
+            openShareModal(shareButton.getAttribute('data-share-target'));
+            return;
+        }
+
         const button = event.target.closest('[data-detail-toggle]');
         if (!button) return;
 
@@ -705,6 +880,11 @@ function bindEvents() {
 
         if (!document.getElementById('calculation-modal')?.hidden) {
             closeModal('calculation-modal');
+            return;
+        }
+
+        if (!document.getElementById('share-modal')?.hidden) {
+            closeModal('share-modal');
         }
     });
 }

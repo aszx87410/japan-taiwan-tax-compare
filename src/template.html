@@ -113,7 +113,12 @@
         <section class="results-grid">
             <div class="country-result panel" id="tw-result">
                 <div class="result-header">
-                    <h2 class="section-title" data-i18n="results.taiwan_title">{{t:results.taiwan_title}}</h2>
+                    <div class="title-with-action">
+                        <h2 class="section-title" data-i18n="results.taiwan_title">{{t:results.taiwan_title}}</h2>
+                        <button class="share-toggle" type="button" data-share-target="taiwan">
+                            {{t:share.button}}
+                        </button>
+                    </div>
                     <button class="details-toggle" type="button" data-detail-toggle="taiwan" aria-expanded="false">
                         {{t:details.show}}
                     </button>
@@ -125,7 +130,12 @@
             </div>
             <div class="country-result panel" id="jp-result">
                 <div class="result-header">
-                    <h2 class="section-title" data-i18n="results.japan_title">{{t:results.japan_title}}</h2>
+                    <div class="title-with-action">
+                        <h2 class="section-title" data-i18n="results.japan_title">{{t:results.japan_title}}</h2>
+                        <button class="share-toggle" type="button" data-share-target="japan">
+                            {{t:share.button}}
+                        </button>
+                    </div>
                     <button class="details-toggle" type="button" data-detail-toggle="japan" aria-expanded="false">
                         {{t:details.show}}
                     </button>
@@ -167,6 +177,19 @@
         <section class="modal-panel bracket-modal-panel" role="dialog" aria-modal="true" aria-labelledby="bracket-modal-title">
             <div class="modal-header">
                 <h2 id="bracket-modal-title" class="modal-title"></h2>
+                <button class="modal-close" type="button" data-modal-close aria-label="{{attr:details.close}}">
+                    ×
+                </button>
+            </div>
+            <div class="modal-body"></div>
+        </section>
+    </div>
+
+    <div id="share-modal" class="modal-root" hidden>
+        <div class="modal-backdrop" data-modal-close></div>
+        <section class="modal-panel share-modal-panel" role="dialog" aria-modal="true" aria-labelledby="share-modal-title">
+            <div class="modal-header">
+                <h2 id="share-modal-title" class="modal-title"></h2>
                 <button class="modal-close" type="button" data-modal-close aria-label="{{attr:details.close}}">
                     ×
                 </button>

@@ -77,7 +77,7 @@
                   "name": "どの世帯条件を比較できますか？",
                   "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "独身、既婚で子どもなし、既婚で3歳の子ども1人の3条件を比較できます。配偶者の所得は0と仮定します。"
+                    "text": "独身、既婚で子どもなし、既婚で子どもありの3条件を比較できます。配偶者の所得は0と仮定します。"
                   }
                 }
               ]
@@ -156,7 +156,7 @@
                         既婚、子どもなし
                     </button>
                     <button class="lang-btn profile-btn" type="button" role="radio" aria-checked="false" data-profile-option="married_one_child_age_3">
-                        既婚、3歳の子ども1人
+                        既婚、子どもあり
                     </button>
                 </div>
             </div>
@@ -169,7 +169,12 @@
         <section class="results-grid">
             <div class="country-result panel" id="tw-result">
                 <div class="result-header">
-                    <h2 class="section-title" data-i18n="results.taiwan_title">台湾税務計算結果</h2>
+                    <div class="title-with-action">
+                        <h2 class="section-title" data-i18n="results.taiwan_title">台湾税務計算結果</h2>
+                        <button class="share-toggle" type="button" data-share-target="taiwan">
+                            共有
+                        </button>
+                    </div>
                     <button class="details-toggle" type="button" data-detail-toggle="taiwan" aria-expanded="false">
                         計算過程を表示
                     </button>
@@ -181,7 +186,12 @@
             </div>
             <div class="country-result panel" id="jp-result">
                 <div class="result-header">
-                    <h2 class="section-title" data-i18n="results.japan_title">日本税務計算結果</h2>
+                    <div class="title-with-action">
+                        <h2 class="section-title" data-i18n="results.japan_title">日本税務計算結果</h2>
+                        <button class="share-toggle" type="button" data-share-target="japan">
+                            共有
+                        </button>
+                    </div>
                     <button class="details-toggle" type="button" data-detail-toggle="japan" aria-expanded="false">
                         計算過程を表示
                     </button>
@@ -223,6 +233,19 @@
         <section class="modal-panel bracket-modal-panel" role="dialog" aria-modal="true" aria-labelledby="bracket-modal-title">
             <div class="modal-header">
                 <h2 id="bracket-modal-title" class="modal-title"></h2>
+                <button class="modal-close" type="button" data-modal-close aria-label="閉じる">
+                    ×
+                </button>
+            </div>
+            <div class="modal-body"></div>
+        </section>
+    </div>
+
+    <div id="share-modal" class="modal-root" hidden>
+        <div class="modal-backdrop" data-modal-close></div>
+        <section class="modal-panel share-modal-panel" role="dialog" aria-modal="true" aria-labelledby="share-modal-title">
+            <div class="modal-header">
+                <h2 id="share-modal-title" class="modal-title"></h2>
                 <button class="modal-close" type="button" data-modal-close aria-label="閉じる">
                     ×
                 </button>

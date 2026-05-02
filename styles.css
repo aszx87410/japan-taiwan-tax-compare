@@ -133,14 +133,14 @@ body.modal-open {
 
 .profile-switcher {
     justify-self: start;
-    flex-wrap: wrap;
-    overflow: visible;
+    flex-wrap: nowrap;
+    overflow-x: auto;
     box-shadow: none;
 }
 
 .profile-btn {
     min-width: auto;
-    white-space: normal;
+    white-space: nowrap;
     line-height: 1.25;
 }
 
@@ -214,7 +214,7 @@ body.modal-open {
 }
 
 .comparison-subtitle {
-    margin: -0.35rem 0 0;
+    margin: 0.35rem 0 0;
 }
 
 .comparison-note {
@@ -228,6 +228,7 @@ body.modal-open {
     font-size: 1.375rem;
     font-weight: 800;
     line-height: 1.25;
+    white-space: nowrap;
 }
 
 .results-grid {
@@ -245,8 +246,8 @@ body.modal-open {
 .result-header {
     display: flex;
     align-items: flex-start;
-    justify-content: space-between;
-    gap: 1rem;
+    flex-direction: column;
+    gap: 0.75rem;
     margin-bottom: 1rem;
 }
 
@@ -254,11 +255,24 @@ body.modal-open {
     margin-bottom: 0;
 }
 
+.title-with-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    min-width: 0;
+}
+
+.title-with-action .section-title,
+.title-with-action .comparison-title {
+    margin: 0;
+}
+
 .details {
     margin-bottom: 1.5rem;
 }
 
-.details-toggle {
+.details-toggle,
+.share-toggle {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -276,13 +290,25 @@ body.modal-open {
     transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease;
 }
 
-.details-toggle:hover {
+.share-toggle {
+    min-height: 2rem;
+    padding: 0.35rem 0.6rem;
+    border-color: #bfdbfe;
+    background: #eff6ff;
+    color: #1d4ed8;
+    font-size: 0.8125rem;
+    white-space: nowrap;
+}
+
+.details-toggle:hover,
+.share-toggle:hover {
     border-color: #93c5fd;
     background: #eff6ff;
     color: #1d4ed8;
 }
 
-.details-toggle:focus-visible {
+.details-toggle:focus-visible,
+.share-toggle:focus-visible {
     outline: 3px solid rgb(59 130 246 / 0.35);
     outline-offset: 2px;
 }
@@ -316,7 +342,7 @@ body.modal-open {
 }
 
 .calculation-table {
-    min-width: 100%;
+    min-width: 58rem;
     table-layout: fixed;
 }
 
@@ -336,8 +362,7 @@ body.modal-open {
 }
 
 .calculation-table td {
-    white-space: normal;
-    overflow-wrap: anywhere;
+    white-space: nowrap;
 }
 
 .operation-pill {
@@ -384,8 +409,7 @@ body.modal-open {
     color: #4b5563;
     font-size: 0.8125rem;
     line-height: 1.45;
-    white-space: normal;
-    overflow-wrap: anywhere;
+    white-space: nowrap;
 }
 
 .bracket-link {
@@ -449,18 +473,16 @@ body.modal-open {
 }
 
 .data-table.calculation-table td {
-    white-space: normal;
-    overflow-wrap: anywhere;
+    white-space: nowrap;
 }
 
 .data-table.calculation-table .formula-cell {
-    white-space: normal;
-    overflow-wrap: anywhere;
+    white-space: nowrap;
 }
 
 .data-table th:first-child,
 .data-table td:first-child {
-    white-space: normal;
+    white-space: nowrap;
 }
 
 .data-table tbody tr:last-child td {
@@ -493,15 +515,18 @@ body.modal-open {
 }
 
 .comparison-table {
-    min-width: 100%;
+    width: 100%;
+    min-width: max-content;
 }
 
 .detail-table {
-    min-width: 100%;
+    width: 100%;
+    min-width: max-content;
 }
 
 .detail-table-jp {
-    min-width: 100%;
+    width: 100%;
+    min-width: max-content;
 }
 
 .chart-container {
@@ -558,6 +583,10 @@ body.modal-open {
     width: min(100%, 46rem);
 }
 
+.share-modal-panel {
+    width: min(100%, 44rem);
+}
+
 .modal-header {
     display: flex;
     align-items: flex-start;
@@ -608,7 +637,7 @@ body.modal-open {
 
 .bracket-table td,
 .bracket-table th {
-    white-space: normal;
+    white-space: nowrap;
 }
 
 .active-bracket-row td {
@@ -622,6 +651,39 @@ body.modal-open {
     color: #4b5563;
     font-size: 0.875rem;
     line-height: 1.5;
+}
+
+.share-preview {
+    display: grid;
+    gap: 1rem;
+    padding-top: 1rem;
+}
+
+.share-preview img {
+    width: 100%;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.75rem;
+    background: #fff;
+    box-shadow: 0 8px 20px rgb(15 23 42 / 0.08);
+}
+
+.share-download {
+    justify-self: start;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2.5rem;
+    padding: 0.55rem 0.875rem;
+    border-radius: 0.5rem;
+    background: #2563eb;
+    color: #fff;
+    font-size: 0.875rem;
+    font-weight: 800;
+    text-decoration: none;
+}
+
+.share-download:hover {
+    background: #1d4ed8;
 }
 
 .sources-panel {
@@ -662,76 +724,6 @@ footer {
     color: #4b5563;
 }
 
-@media (max-width: 560px) {
-    .comparison-card .table-scroll {
-        overflow: visible;
-    }
-
-    .comparison-table,
-    .comparison-table tbody,
-    .comparison-table tr,
-    .comparison-table td {
-        display: block;
-    }
-
-    .comparison-table thead {
-        display: none;
-    }
-
-    .comparison-table tbody {
-        display: grid;
-        gap: 0.75rem;
-    }
-
-    .comparison-table tr {
-        padding: 0.75rem;
-        border: 1px solid #e5e7eb;
-        border-radius: 0.625rem;
-        background: #fff;
-    }
-
-    .comparison-table tr.summary-row {
-        background: #f9fafb;
-    }
-
-    .comparison-table .summary-row td {
-        background: transparent;
-    }
-
-    .comparison-table td {
-        display: flex;
-        align-items: flex-start;
-        justify-content: space-between;
-        gap: 1rem;
-        padding: 0.35rem 0;
-        border-bottom: 0;
-        text-align: right;
-        white-space: normal;
-    }
-
-    .comparison-table td::before {
-        content: attr(data-label);
-        color: #6b7280;
-        flex: 1 1 auto;
-        font-weight: 700;
-        text-align: left;
-    }
-
-    .comparison-table td:first-child {
-        display: block;
-        margin-bottom: 0.35rem;
-        padding: 0 0 0.5rem;
-        border-bottom: 1px solid #e5e7eb;
-        color: #111827;
-        font-weight: 800;
-        text-align: left;
-    }
-
-    .comparison-table td:first-child::before {
-        content: none;
-    }
-}
-
 @media (max-width: 768px) {
     .app-shell {
         width: min(100% - 1rem, 1120px);
@@ -743,10 +735,13 @@ footer {
         border-radius: 0.625rem;
     }
 
-    .income-grid,
     .results-grid {
         grid-template-columns: 1fr;
         gap: 1rem;
+    }
+
+    .income-grid {
+        gap: 0.75rem;
     }
 
     .profile-row {
@@ -761,10 +756,9 @@ footer {
         flex: 1 1 9rem;
     }
 
-    .comparison-header,
-    .result-header {
-        align-items: stretch;
-        flex-direction: column;
+    .comparison-header {
+        align-items: center;
+        flex-direction: row;
     }
 
     .comparison-currency-control {
@@ -856,12 +850,37 @@ footer {
     }
 
     .comparison-table {
-        font-size: 0.75rem;
+        font-size: 0.625rem;
+        line-height: 1.25;
     }
 
     .comparison-table th,
     .comparison-table td {
-        padding: 0.6rem 0.35rem;
+        padding: 0.5rem 0.2rem;
+    }
+
+    .comparison-table th:first-child,
+    .comparison-table td:first-child {
+        padding-left: 0.35rem;
+    }
+
+    .comparison-table th:last-child,
+    .comparison-table td:last-child {
+        padding-right: 0.35rem;
+    }
+
+    .income-grid {
+        gap: 0.5rem;
+    }
+
+    .input-control {
+        min-height: 2.875rem;
+        padding: 0.65rem 2.4rem 0.65rem 0.7rem;
+        font-size: 0.9375rem;
+    }
+
+    .input-unit {
+        right: 0.65rem;
     }
 
     .chart-container {

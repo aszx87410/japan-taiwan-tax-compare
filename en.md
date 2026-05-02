@@ -10,7 +10,7 @@ https://aszx87410.github.io/japan-taiwan-tax-compare/en.html
 
 - Single
 - Married, no child
-- Married, one 3-year-old child
+- Married, with child
 
 ## Calculations covered
 

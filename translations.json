@@ -20,7 +20,7 @@
         },
         {
           "question": "可以比較哪些身份情境？",
-          "answer": "可以比較單身、結婚沒小孩、結婚有一個 3 歲小孩三種情境；配偶假設無收入。"
+          "answer": "可以比較單身、結婚沒小孩、結婚有小孩三種情境；配偶假設無收入。"
         }
       ]
     },
@@ -42,7 +42,7 @@
       "label": "身份情境",
       "single": "單身",
       "married_no_child": "結婚，沒有小孩",
-      "married_one_child_age_3": "結婚，有一個 3 歲小孩",
+      "married_one_child_age_3": "結婚，有小孩",
       "current": "目前情境：{}"
     },
     "results": {
@@ -56,8 +56,8 @@
       "labor_insurance": "勞保費",
       "resident_tax": "住民稅",
       "pension_insurance": "厚生年金",
-      "pension_labor_insurance": "勞保 / 厚生年金",
-      "employment_insurance": "就業 / 雇用保險",
+      "pension_labor_insurance": "勞保/年金",
+      "employment_insurance": "就業保險",
       "jp_health_insurance": "健康保險",
       "social_insurance": "社會保險",
       "total_deductions": "總稅金",
@@ -212,6 +212,13 @@
     },
     "footer": {
       "github": "GitHub 網址"
+    },
+    "share": {
+      "button": "分享",
+      "modal_title": "{}分享圖",
+      "download": "下載圖片",
+      "subtitle": "目前情境：{}，匯率：1日圓 = {} 台幣",
+      "generated_alt": "稅務比較分享圖"
     }
   },
   "ja": {
@@ -235,7 +242,7 @@
         },
         {
           "question": "どの世帯条件を比較できますか？",
-          "answer": "独身、既婚で子どもなし、既婚で3歳の子ども1人の3条件を比較できます。配偶者の所得は0と仮定します。"
+          "answer": "独身、既婚で子どもなし、既婚で子どもありの3条件を比較できます。配偶者の所得は0と仮定します。"
         }
       ]
     },
@@ -257,7 +264,7 @@
       "label": "世帯条件",
       "single": "独身",
       "married_no_child": "既婚、子どもなし",
-      "married_one_child_age_3": "既婚、3歳の子ども1人",
+      "married_one_child_age_3": "既婚、子どもあり",
       "current": "現在の条件：{}"
     },
     "results": {
@@ -271,8 +278,8 @@
       "labor_insurance": "労工保険",
       "resident_tax": "住民税",
       "pension_insurance": "厚生年金",
-      "pension_labor_insurance": "労工保険 / 厚生年金",
-      "employment_insurance": "就業 / 雇用保険",
+      "pension_labor_insurance": "労保/年金",
+      "employment_insurance": "就業保険",
       "jp_health_insurance": "健康保険",
       "social_insurance": "社会保険",
       "total_deductions": "税金・保険料合計",
@@ -427,6 +434,13 @@
     },
     "footer": {
       "github": "GitHub リンク"
+    },
+    "share": {
+      "button": "共有",
+      "modal_title": "{}共有画像",
+      "download": "画像をダウンロード",
+      "subtitle": "現在の条件：{}、為替：1円 = {} 台湾ドル",
+      "generated_alt": "税務比較共有画像"
     }
   },
   "en": {
@@ -450,7 +464,7 @@
         },
         {
           "question": "Which household scenarios are supported?",
-          "answer": "It supports single, married with no child, and married with one 3-year-old child. Spouse income is assumed to be 0."
+          "answer": "It supports single, married with no child, and married with child scenarios. Spouse income is assumed to be 0."
         }
       ]
     },
@@ -472,7 +486,7 @@
       "label": "Household",
       "single": "Single",
       "married_no_child": "Married, no child",
-      "married_one_child_age_3": "Married, one 3-year-old child",
+      "married_one_child_age_3": "Married, with child",
       "current": "Current household: {}"
     },
     "results": {
@@ -486,8 +500,8 @@
       "labor_insurance": "Labor Insurance",
       "resident_tax": "Resident Tax",
       "pension_insurance": "Pension Insurance",
-      "pension_labor_insurance": "Labor Insurance / Pension",
-      "employment_insurance": "Employment Insurance",
+      "pension_labor_insurance": "Labor/pension",
+      "employment_insurance": "Employment insurance",
       "jp_health_insurance": "Health Insurance",
       "social_insurance": "Social Insurance",
       "total_deductions": "Total taxes and insurance",
@@ -642,6 +656,13 @@
     },
     "footer": {
       "github": "GitHub Repository"
+    },
+    "share": {
+      "button": "Share",
+      "modal_title": "{} share image",
+      "download": "Download image",
+      "subtitle": "Current household: {}, FX: 1 JPY = {} TWD",
+      "generated_alt": "Tax comparison share image"
     }
   }
 }

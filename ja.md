@@ -10,7 +10,7 @@ https://aszx87410.github.io/japan-taiwan-tax-compare/ja.html
 
 - 独身
 - 既婚、子どもなし
-- 既婚、3歳の子ども1人
+- 既婚、子どもあり
 
 ## Calculations covered
 

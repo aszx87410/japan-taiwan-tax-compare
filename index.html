@@ -77,7 +77,7 @@
                   "name": "可以比較哪些身份情境？",
                   "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "可以比較單身、結婚沒小孩、結婚有一個 3 歲小孩三種情境；配偶假設無收入。"
+                    "text": "可以比較單身、結婚沒小孩、結婚有小孩三種情境；配偶假設無收入。"
                   }
                 }
               ]
@@ -156,7 +156,7 @@
                         結婚，沒有小孩
                     </button>
                     <button class="lang-btn profile-btn" type="button" role="radio" aria-checked="false" data-profile-option="married_one_child_age_3">
-                        結婚，有一個 3 歲小孩
+                        結婚，有小孩
                     </button>
                 </div>
             </div>
@@ -169,7 +169,12 @@
         <section class="results-grid">
             <div class="country-result panel" id="tw-result">
                 <div class="result-header">
-                    <h2 class="section-title" data-i18n="results.taiwan_title">台灣稅務計算結果</h2>
+                    <div class="title-with-action">
+                        <h2 class="section-title" data-i18n="results.taiwan_title">台灣稅務計算結果</h2>
+                        <button class="share-toggle" type="button" data-share-target="taiwan">
+                            分享
+                        </button>
+                    </div>
                     <button class="details-toggle" type="button" data-detail-toggle="taiwan" aria-expanded="false">
                         查看計算過程
                     </button>
@@ -181,7 +186,12 @@
             </div>
             <div class="country-result panel" id="jp-result">
                 <div class="result-header">
-                    <h2 class="section-title" data-i18n="results.japan_title">日本稅務計算結果</h2>
+                    <div class="title-with-action">
+                        <h2 class="section-title" data-i18n="results.japan_title">日本稅務計算結果</h2>
+                        <button class="share-toggle" type="button" data-share-target="japan">
+                            分享
+                        </button>
+                    </div>
                     <button class="details-toggle" type="button" data-detail-toggle="japan" aria-expanded="false">
                         查看計算過程
                     </button>
@@ -223,6 +233,19 @@
         <section class="modal-panel bracket-modal-panel" role="dialog" aria-modal="true" aria-labelledby="bracket-modal-title">
             <div class="modal-header">
                 <h2 id="bracket-modal-title" class="modal-title"></h2>
+                <button class="modal-close" type="button" data-modal-close aria-label="關閉">
+                    ×
+                </button>
+            </div>
+            <div class="modal-body"></div>
+        </section>
+    </div>
+
+    <div id="share-modal" class="modal-root" hidden>
+        <div class="modal-backdrop" data-modal-close></div>
+        <section class="modal-panel share-modal-panel" role="dialog" aria-modal="true" aria-labelledby="share-modal-title">
+            <div class="modal-header">
+                <h2 id="share-modal-title" class="modal-title"></h2>
                 <button class="modal-close" type="button" data-modal-close aria-label="關閉">
                     ×
                 </button>

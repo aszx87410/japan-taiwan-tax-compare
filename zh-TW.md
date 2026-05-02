@@ -10,7 +10,7 @@ https://aszx87410.github.io/japan-taiwan-tax-compare/
 
 - 單身
 - 結婚，沒有小孩
-- 結婚，有一個 3 歲小孩
+- 結婚，有小孩
 
 ## Calculations covered
 
