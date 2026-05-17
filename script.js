@@ -16,6 +16,102 @@ const chartInstances = {
     'jp-chart': null
 };
 
+function distributeLabelRows(items, minY, maxY, gap) {
+    items.sort((a, b) => a.desiredY - b.desiredY);
+    items.forEach((item, index) => {
+        const previous = items[index - 1];
+        item.y = Math.max(item.desiredY, previous ? previous.y + gap : minY);
+    });
+
+    const overflow = items.length ? items[items.length - 1].y - maxY : 0;
+    if (overflow > 0) {
+        items[items.length - 1].y = maxY;
+        for (let index = items.length - 2; index >= 0; index -= 1) {
+            items[index].y = Math.min(items[index].y, items[index + 1].y - gap);
+        }
+    }
+
+    items.forEach(item => {
+        item.y = Math.max(minY, Math.min(maxY, item.y));
+    });
+}
+
+function labelBlockWidth(ctx, lines, fonts) {
+    return Math.max(...lines.map((line, index) => {
+        ctx.font = fonts[index] || fonts[fonts.length - 1];
+        return ctx.measureText(line).width;
+    }));
+}
+
+function drawLabelBlock(ctx, lines, x, y, align, colors, fonts, lineHeight, strokeStyle = '#ffffff') {
+    const offset = -(lines.length - 1) * lineHeight / 2;
+    ctx.textAlign = align;
+    ctx.textBaseline = 'middle';
+
+    lines.forEach((line, index) => {
+        const lineY = y + offset + index * lineHeight;
+        ctx.font = fonts[index] || fonts[fonts.length - 1];
+        ctx.lineWidth = align === 'center' ? 4 : 5;
+        ctx.strokeStyle = strokeStyle;
+        ctx.fillStyle = colors[index] || colors[colors.length - 1];
+        ctx.strokeText(line, x, lineY);
+        ctx.fillText(line, x, lineY);
+    });
+}
+
+const verticalStackLabelsPlugin = {
+    id: 'verticalStackLabels',
+    afterDraw(chart) {
+        const datasets = chart.data.datasets || [];
+        const chartArea = chart.chartArea;
+        if (!datasets.length || !chartArea) return;
+
+        const ctx = chart.ctx;
+        ctx.save();
+        const fonts = [
+            '700 11px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+            '900 12px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif'
+        ];
+        const labels = [];
+
+        datasets.forEach((dataset, index) => {
+            const percentage = dataset.percentage ?? Math.max(0, dataset.data?.[0] || 0);
+            if (!percentage) return;
+
+            const meta = chart.getDatasetMeta(index);
+            const bar = meta.data[0];
+            if (!bar) return;
+
+            const props = bar.getProps(['x', 'y', 'base', 'width'], true);
+            const segmentCenterY = (props.y + props.base) / 2;
+            labels.push({
+                lines: [dataset.name, `${percentage.toFixed(2)}%`],
+                colors: ['#374151', '#111827'],
+                anchorX: props.x + props.width / 2,
+                anchorY: segmentCenterY,
+                desiredY: segmentCenterY,
+                labelX: chartArea.right + 16,
+                align: 'left'
+            });
+        });
+
+        distributeLabelRows(labels, chartArea.top + 12, chartArea.bottom - 12, 32);
+        labels.forEach(item => {
+            ctx.strokeStyle = '#9ca3af';
+            ctx.lineWidth = 1.4;
+            ctx.beginPath();
+            ctx.moveTo(item.anchorX, item.anchorY);
+            ctx.lineTo(item.anchorX + 18, item.y);
+            ctx.lineTo(item.labelX - 8, item.y);
+            ctx.stroke();
+
+            drawLabelBlock(ctx, item.lines, item.labelX, item.y, item.align, item.colors, fonts, 13);
+        });
+
+        ctx.restore();
+    }
+};
+
 async function loadTranslations() {
     const response = await fetch('translations.json');
     if (!response.ok) {
@@ -461,40 +557,79 @@ function updatePieChart(canvasId, taxInfo, income, currency) {
             { key: 'results.employment_insurance', amount: taxInfo.employmentInsurance }
         ];
 
-    const labels = rows.map(row => {
+    const percentages = rows.map(row => {
         const ratio = row.key === 'results.net_income' ? netRate : (income ? (row.amount / income * 100).toFixed(2) : '0.00');
-        return `${t(row.key)} (${ratio}%)`;
+        return Number(ratio);
     });
+    const names = rows.map(row => t(row.key));
+    const colors = ['#2563eb', '#e11d48', '#f59e0b', '#10b981', '#7c3aed', '#f97316'];
 
     chartInstances[canvasId] = new Chart(ctx, {
-        type: 'pie',
+        type: 'bar',
         data: {
-            labels,
-            datasets: [{
-                data: rows.map(row => row.amount),
-                backgroundColor: ['#2563eb', '#e11d48', '#f59e0b', '#10b981', '#7c3aed', '#f97316']
-            }]
+            labels: [''],
+            datasets: rows.map((row, index) => ({
+                label: `${names[index]} (${percentages[index].toFixed(2)}%)`,
+                name: names[index],
+                amount: row.amount,
+                percentage: percentages[index],
+                data: [percentages[index]],
+                backgroundColor: colors[index % colors.length],
+                borderColor: '#ffffff',
+                borderWidth: 2,
+                borderRadius: 4,
+                borderSkipped: false,
+                barThickness: 82
+            }))
         },
         options: {
+            animation: false,
             responsive: true,
             maintainAspectRatio: false,
+            layout: {
+                padding: {
+                    top: 20,
+                    right: 168,
+                    bottom: 10,
+                    left: 22
+                }
+            },
+            scales: {
+                x: {
+                    display: false,
+                    stacked: true,
+                    grid: { display: false },
+                    ticks: { display: false }
+                },
+                y: {
+                    stacked: true,
+                    beginAtZero: true,
+                    suggestedMax: 100,
+                    max: 100,
+                    ticks: {
+                        callback(value) {
+                            return `${value}%`;
+                        }
+                    },
+                    grid: {
+                        color: '#eef2f7'
+                    }
+                }
+            },
             plugins: {
                 legend: {
-                    position: 'bottom',
-                    labels: {
-                        boxWidth: 14,
-                        font: { size: 12 }
-                    }
+                    display: false
                 },
                 tooltip: {
                     callbacks: {
                         label(context) {
-                            return `${context.label}: ${formatMoney(context.raw, currency)}`;
+                            return `${context.dataset.name} (${context.dataset.percentage.toFixed(2)}%): ${formatMoney(context.dataset.amount, currency)}`;
                         }
                     }
                 }
             }
-        }
+        },
+        plugins: [verticalStackLabelsPlugin]
     });
 }
 
@@ -666,10 +801,117 @@ function updateComparisonTable(twTax, jpTax) {
     `;
 }
 
+function availableShareCharts(charts = []) {
+    return charts.map(chart => {
+        const chartInstance = chartInstances[chart.canvasId];
+        const datasets = chartInstance?.data?.datasets;
+        if (!chartInstance || !datasets?.length) {
+            return null;
+        }
+
+        return {
+            ...chart,
+            names: datasets.map(dataset => dataset.name),
+            values: datasets.map(dataset => dataset.amount),
+            percentages: datasets.map(dataset => dataset.percentage),
+            colors: datasets.map(dataset => dataset.backgroundColor)
+        };
+    }).filter(Boolean);
+}
+
+function drawShareVerticalStack(ctx, chart, x, y, width, height) {
+    const labelFonts = [
+        '800 18px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+        '900 19px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif'
+    ];
+    const plotTop = y + 30;
+    const plotBottom = y + height - 30;
+    const plotHeight = plotBottom - plotTop;
+    const barWidth = Math.min(96, width * 0.32);
+    const barX = x + 34;
+    const barBottom = plotBottom;
+    const labels = [];
+    let cursorY = barBottom;
+
+    chart.percentages.forEach((percentage, index) => {
+        if (!percentage) return;
+
+        const segmentHeight = plotHeight * (percentage / 100);
+        const segmentY = cursorY - segmentHeight;
+        const segmentCenterY = segmentY + segmentHeight / 2;
+
+        ctx.fillStyle = chart.colors[index % chart.colors.length];
+        ctx.beginPath();
+        ctx.roundRect(barX, segmentY, barWidth, segmentHeight, 4);
+        ctx.fill();
+
+        ctx.strokeStyle = '#ffffff';
+        ctx.lineWidth = 3;
+        ctx.strokeRect(barX, segmentY, barWidth, segmentHeight);
+
+        labels.push({
+            lines: [chart.names[index], `${percentage.toFixed(2)}%`],
+            colors: ['#374151', '#111827'],
+            anchorX: barX + barWidth,
+            anchorY: segmentCenterY,
+            desiredY: segmentCenterY,
+            labelX: barX + barWidth + 54,
+            align: 'left'
+        });
+
+        cursorY = segmentY;
+    });
+
+    ctx.strokeStyle = '#e5e7eb';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(barX - 16, barBottom);
+    ctx.lineTo(barX + barWidth + 16, barBottom);
+    ctx.stroke();
+
+    distributeLabelRows(labels, plotTop + 16, plotBottom - 16, 48);
+    labels.forEach(label => {
+        ctx.strokeStyle = '#94a3b8';
+        ctx.lineWidth = 2.5;
+        ctx.beginPath();
+        ctx.moveTo(label.anchorX, label.anchorY);
+        ctx.lineTo(label.anchorX + 24, label.y);
+        ctx.lineTo(label.labelX - 12, label.y);
+        ctx.stroke();
+
+        drawLabelBlock(ctx, label.lines, label.labelX, label.y, label.align, label.colors, labelFonts, 22);
+    });
+}
+
+function drawShareCharts(ctx, charts, x, y, width, height) {
+    const gap = 24;
+    const cardWidth = charts.length > 1 ? (width - gap) / 2 : Math.min(820, width);
+    const startX = charts.length > 1 ? x : x + (width - cardWidth) / 2;
+
+    charts.forEach((chart, index) => {
+        const cardX = startX + index * (cardWidth + gap);
+
+        ctx.fillStyle = '#f8fafc';
+        ctx.beginPath();
+        ctx.roundRect(cardX, y, cardWidth, height, 20);
+        ctx.fill();
+
+        ctx.strokeStyle = '#e5e7eb';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        drawShareVerticalStack(ctx, chart, cardX + 28, y + 38, cardWidth - 56, height - 76);
+    });
+}
+
 function drawShareCard(payload) {
     const width = 1200;
     const rowHeight = 58;
-    const height = 240 + payload.rows.length * rowHeight;
+    const charts = availableShareCharts(payload.charts);
+    const chartBlockHeight = charts.length ? 510 : 0;
+    const tableHeaderY = 225 + chartBlockHeight;
+    const firstRowY = 270 + chartBlockHeight;
+    const height = firstRowY + payload.rows.length * rowHeight + 70;
     const canvas = document.createElement('canvas');
     canvas.width = width;
     canvas.height = height;
@@ -698,15 +940,26 @@ function drawShareCard(payload) {
     ctx.lineTo(width - 80, 190);
     ctx.stroke();
 
+    if (charts.length) {
+        drawShareCharts(ctx, charts, 80, 220, width - 160, 460);
+
+        ctx.strokeStyle = '#e5e7eb';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(80, 710);
+        ctx.lineTo(width - 80, 710);
+        ctx.stroke();
+    }
+
     ctx.font = '700 22px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
     ctx.fillStyle = '#6b7280';
     payload.columns.forEach(column => {
         ctx.textAlign = column.align || 'left';
-        ctx.fillText(column.label, column.x, 225, column.maxWidth);
+        ctx.fillText(column.label, column.x, tableHeaderY, column.maxWidth);
     });
 
     payload.rows.forEach((row, rowIndex) => {
-        const y = 270 + rowIndex * rowHeight;
+        const y = firstRowY + rowIndex * rowHeight;
         if (row.summary) {
             ctx.fillStyle = '#f9fafb';
             ctx.fillRect(70, y - 34, width - 140, rowHeight);
@@ -763,6 +1016,11 @@ function buildSummarySharePayload(country) {
             { label: t('results.amount'), x: 760, align: 'right', maxWidth: 360 },
             { label: t('results.ratio'), x: 1080, align: 'right', maxWidth: 140 }
         ],
+        charts: [
+            {
+                canvasId: country === 'japan' ? 'jp-chart' : 'tw-chart'
+            }
+        ],
         rows
     };
 }
@@ -790,6 +1048,14 @@ function buildComparisonSharePayload() {
             { label: t('results.taiwan'), x: 520, align: 'right', maxWidth: 210 },
             { label: t('results.japan'), x: 790, align: 'right', maxWidth: 210 },
             { label: t('results.difference'), x: 1080, align: 'right', maxWidth: 240 }
+        ],
+        charts: [
+            {
+                canvasId: 'tw-chart'
+            },
+            {
+                canvasId: 'jp-chart'
+            }
         ],
         rows: comparisonRows.map(([label, twAmount, jpAmount, summary]) => {
             const convertedJp = jpAmount * EXCHANGE_RATE;
